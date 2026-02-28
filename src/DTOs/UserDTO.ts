@@ -6,4 +6,5 @@ export interface UserDTO {
     is_admin: boolean;
     answered_questions: number;
     points: number;
+    token?: string;
 }
