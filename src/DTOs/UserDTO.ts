@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+
 export interface UserDTO {
     name: string;
     email: string;
