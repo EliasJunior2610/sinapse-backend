@@ -2,6 +2,7 @@ import { UserRepository } from "src/repositories/user.repository";
 import { Injectable, BadRequestException, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { UserDTO, UserResponseDTO } from "src/DTOs/UserDTO";
 import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UsersService {
@@ -49,7 +50,7 @@ export class UsersService {
             throw new NotFoundException('Erro ao retornar usuário');
         }
     }
-    
+
     async deleteById(id: string): Promise<string> {
         try {
             if (!id) throw new BadRequestException('id de usuário não enviado');
@@ -74,5 +75,31 @@ export class UsersService {
             console.error(error);
             throw new NotFoundException('Erro ao atualizar usuário');
         }
+    }
+
+    async login(email: string, password: string) {
+        const user = await this.userRepository.findByEmail(email);
+
+        if (!user) {
+            throw new Error('Usuário não encontrado');
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+            throw new Error('Senha inválida');
+        }
+
+        const token = jwt.sign(
+            {
+                id: user._id,
+                email: user.email,
+                is_admin: user.is_admin
+            },
+            process.env.SECRET as string,
+            { expiresIn: '1d' }
+        );
+
+        return { token };
     }
 }

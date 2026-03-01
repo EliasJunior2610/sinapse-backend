@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Delete, Patch, Body, Param } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiParam } from "@nestjs/swagger";
 import { UsersService } from "src/services/user.service";
-import { UserDTO, UserResponseDTO } from "src/DTOs/UserDTO";
+import { LoginDTO, UserDTO, UserResponseDTO } from "src/DTOs/UserDTO";
 
 @Controller('/users')
 export class UserController {
@@ -40,5 +40,12 @@ export class UserController {
     @ApiBody({ type: UserDTO })
     async updateById(@Param() params: any, @Body() updatedUser: Partial<UserDTO>): Promise<UserResponseDTO> {
         return this.usersService.updateById(params.id, updatedUser);
+    }
+
+    @Post('/login')
+    @ApiOperation({ summary: 'Faz o login do usuário e retorna o token' })
+    @ApiBody({ type: LoginDTO })
+    async login(@Body() body: { email: string, password: string }) {
+        return this.usersService.login(body.email, body.password);
     }
 }

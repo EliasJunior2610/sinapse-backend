@@ -9,13 +9,13 @@ export class UserRepository {
 
     async insertOne(user: UserDTO): Promise<UserResponseDTO> {
         const userExists = await this.User.findOne({ name: user.name });
-        if (userExists) { 
-            throw new BadRequestException('Esse nome de usuário já está sendo utilizado'); 
+        if (userExists) {
+            throw new BadRequestException('Esse nome de usuário já está sendo utilizado');
         }
 
         const emailExists = await this.User.findOne({ email: user.email });
-        if (emailExists) { 
-            throw new BadRequestException('Esse e-mail já está sendo utilizado'); 
+        if (emailExists) {
+            throw new BadRequestException('Esse e-mail já está sendo utilizado');
         }
 
         const doc = new this.User(user);
@@ -90,5 +90,15 @@ export class UserRepository {
             answered_questions: user.answered_questions!,
             points: user.points!,
         };
+    }
+
+    async findByEmail(email: string) {
+        const user = await this.User.findOne({ email }).lean();
+
+        if (!user) {
+            throw new NotFoundException('Usuário não encontrado');
+        }
+
+        return user;
     }
 }

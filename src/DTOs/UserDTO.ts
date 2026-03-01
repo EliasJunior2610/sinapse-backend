@@ -23,8 +23,8 @@ export class UserDTO {
     @ApiProperty()
     points: number;
 
-    @ApiProperty()
-    token?: string;
+    // @ApiProperty()
+    // token: string | undefined;
 }
 
 export class UserResponseDTO {
@@ -45,4 +45,12 @@ export class UserResponseDTO {
 
     @ApiProperty()
     points: number;
+}
+
+export class LoginDTO {
+    @ApiProperty()
+    email: string;
+
+    @ApiProperty()
+    password: string;
 }
