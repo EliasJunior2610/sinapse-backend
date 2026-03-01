@@ -1,13 +1,13 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import mongoose from "src/config/mongodb";
-import { UserDTO, UserResponseDTO } from "src/DTOs/UserDTO";
+import { UserDTO, UserResponseDTO, CreateUserDTO } from "src/DTOs/UserDTO";
 import { userSchema } from "src/schemas/user.schema";
 
 @Injectable()
 export class UserRepository {
     private User = mongoose.model('User', userSchema);
 
-    async insertOne(user: UserDTO): Promise<UserResponseDTO> {
+    async insertOne(user: CreateUserDTO): Promise<UserResponseDTO> {
         const userExists = await this.User.findOne({ name: user.name });
         if (userExists) {
             throw new BadRequestException('Esse nome de usuário já está sendo utilizado');
@@ -18,7 +18,15 @@ export class UserRepository {
             throw new BadRequestException('Esse e-mail já está sendo utilizado');
         }
 
-        const doc = new this.User(user);
+        const newUser = {
+            ...user,
+            paying: false,
+            is_admin: false,
+            answered_questions: 0,
+            points: 0,
+        }
+
+        const doc = new this.User(newUser);
         const response = await doc.save();
 
         return {

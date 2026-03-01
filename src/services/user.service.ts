@@ -1,6 +1,6 @@
 import { UserRepository } from "src/repositories/user.repository";
 import { Injectable, BadRequestException, InternalServerErrorException, NotFoundException } from "@nestjs/common";
-import { UserDTO, UserResponseDTO } from "src/DTOs/UserDTO";
+import { UserDTO, UserResponseDTO, CreateUserDTO } from "src/DTOs/UserDTO";
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
@@ -8,7 +8,7 @@ import * as jwt from 'jsonwebtoken';
 export class UsersService {
     constructor(private userRepository: UserRepository) { }
 
-    async create(user: UserDTO): Promise<UserResponseDTO> {
+    async create(user: CreateUserDTO): Promise<UserResponseDTO> {
         try {
             if (!user) throw new BadRequestException('Usuário não enviado.');
 

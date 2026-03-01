@@ -47,6 +47,17 @@ export class UserResponseDTO {
     points: number;
 }
 
+export class CreateUserDTO {
+    @ApiProperty()
+    name: string;
+
+    @ApiProperty()
+    email: string;
+
+    @ApiProperty()
+    password: string;
+}
+
 export class LoginDTO {
     @ApiProperty()
     email: string;
