@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Delete, Patch, Body, Param } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam } from "@nestjs/swagger";
 import { UsersService } from "src/services/user.service";
-import { LoginDTO, UserDTO, UserResponseDTO } from "src/DTOs/UserDTO";
+import { LoginDTO, UserDTO, UserResponseDTO, CreateUserDTO } from "src/DTOs/UserDTO";
 
 @ApiBearerAuth()
 @Controller('/users')
@@ -10,8 +10,8 @@ export class UserController {
 
     @Post()
     @ApiOperation({ summary: 'Criar novo usuário' })
-    @ApiBody({ type: UserDTO })
-    async create(@Body() user: UserDTO): Promise<UserResponseDTO> {
+    @ApiBody({ type: CreateUserDTO })
+    async create(@Body() user: CreateUserDTO): Promise<UserResponseDTO> {
         return this.usersService.create(user);
     }
 
