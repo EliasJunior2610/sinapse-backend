@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Delete, Patch, Body, Param } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam } from "@nestjs/swagger";
 import { UsersService } from "src/services/user.service";
-import { LoginDTO, UserDTO, UserResponseDTO, CreateUserDTO } from "src/DTOs/UserDTO";
+import { LoginDTO, UserDTO, UserResponseDTO, CreateUserDTO, LoggedUserDTO } from "src/DTOs/UserDTO";
 
 @ApiBearerAuth()
 @Controller('/users')
@@ -44,9 +44,9 @@ export class UserController {
     }
 
     @Post('/login')
-    @ApiOperation({ summary: 'Faz o login do usuário e retorna o token' })
+    @ApiOperation({ summary: 'Faz o login do usuário e retorna as informações do usuário' })
     @ApiBody({ type: LoginDTO })
-    async login(@Body() body: { email: string, password: string }) {
+    async login(@Body() body: { email: string, password: string }): Promise<LoggedUserDTO> {
         return this.usersService.login(body.email, body.password);
     }
 }

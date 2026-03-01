@@ -1,6 +1,6 @@
 import { UserRepository } from "src/repositories/user.repository";
 import { Injectable, BadRequestException, InternalServerErrorException, NotFoundException } from "@nestjs/common";
-import { UserDTO, UserResponseDTO, CreateUserDTO } from "src/DTOs/UserDTO";
+import { UserDTO, UserResponseDTO, CreateUserDTO, LoggedUserDTO } from "src/DTOs/UserDTO";
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
@@ -77,7 +77,7 @@ export class UsersService {
         }
     }
 
-    async login(email: string, password: string) {
+    async login(email: string, password: string): Promise<LoggedUserDTO> {
         const user = await this.userRepository.findByEmail(email);
 
         if (!user) {
@@ -100,6 +100,15 @@ export class UsersService {
             { expiresIn: '1d' }
         );
 
-        return { token };
+        return {
+            token: token,
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            paying: user.paying,
+            is_admin: user.is_admin,
+            answered_questions: user.answered_questions,
+            points: user.points,
+        }
     }
 }

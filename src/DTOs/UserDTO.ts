@@ -65,3 +65,29 @@ export class LoginDTO {
     @ApiProperty()
     password: string;
 }
+
+export class LoggedUserDTO {
+    @ApiProperty()
+    token: string;
+
+    @ApiProperty()
+    _id: Types.ObjectId;
+
+    @ApiProperty()
+    name: string;
+
+    @ApiProperty()
+    email: string;
+
+    @ApiProperty()
+    paying: boolean;
+
+    @ApiProperty()
+    is_admin: boolean;
+
+    @ApiProperty()
+    answered_questions: number;
+
+    @ApiProperty()
+    points: number;
+}
