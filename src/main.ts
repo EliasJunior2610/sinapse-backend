@@ -5,6 +5,7 @@ import { AppModule } from './modules/app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = await new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('Documentação da API')
     .setDescription('Rotas documentadas abaixo:')
     .setVersion('1.0')
