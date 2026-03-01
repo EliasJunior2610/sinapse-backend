@@ -1,21 +1,48 @@
 import { Types } from "mongoose";
+import { ApiProperty } from "@nestjs/swagger";
 
-export interface UserDTO {
+export class UserDTO {
+    @ApiProperty()
     name: string;
+
+    @ApiProperty()
     email: string;
+
+    @ApiProperty()
     password: string;
+
+    @ApiProperty()
     paying: boolean;
+
+    @ApiProperty()
     is_admin: boolean;
+
+    @ApiProperty()
     answered_questions: number;
+
+    @ApiProperty()
     points: number;
+
+    @ApiProperty()
     token?: string;
 }
 
-export interface UserResponseDTO {
+export class UserResponseDTO {
+    @ApiProperty()
     _id: Types.ObjectId;
+
+    @ApiProperty()
     name: string;
+
+    @ApiProperty()
     email: string;
+
+    @ApiProperty()
     paying: boolean;
+
+    @ApiProperty()
     answered_questions: number;
+
+    @ApiProperty()
     points: number;
 }
