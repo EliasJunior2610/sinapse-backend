@@ -64,7 +64,9 @@ export class UsersService {
 
     async updateById(id: string, updatedUser: Partial<UserDTO>): Promise<UserResponseDTO> {
         try {
-            if (!id) throw new BadRequestException('id de usuário não enviado');
+            if (!id) throw new BadRequestException('id de usuário não enviado.');
+
+            if (!updatedUser) throw new BadRequestException('Usuário não enviado.');
 
             const response = await this.userRepository.findByIdAndUpdate(id, updatedUser);
             return response;
