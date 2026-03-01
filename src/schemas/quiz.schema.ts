@@ -18,7 +18,10 @@ export const quizSchema = new Schema({
             type: String,
             required: true,
         },
-        possible_answers: [String],
+        possible_answers: {
+            type: [String],
+            default: [],
+        },
         answer: Number,
         boolean_answer: Boolean,
     }],

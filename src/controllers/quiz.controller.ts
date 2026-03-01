@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Patch, Body, Param } from "@nestjs/common";
+import { Controller, Post, Get, Patch, Delete, Body, Param, Query } from "@nestjs/common";
 import { QuizService } from "src/services/quiz.service";
 import type { QuizDTO, QuizResponseDTO, QuestionDTO } from "src/DTOs/QuizDTO";
 
@@ -22,13 +22,61 @@ export class QuizController {
     }
 
     @Patch(':id')
-    async findByIdAndUpdate(@Param() params: any, @Body() quiz: Partial<QuizDTO>): Promise<QuizResponseDTO> {
+    async findByIdAndUpdate(
+        @Param() params: any,
+        @Body() quiz: Partial<QuizDTO>,
+    ): Promise<QuizResponseDTO> {
         return this.quizzesService.findByIdAndUpdate(params.id,  quiz);
     }
 
-    // INCOMPLETO - múltiplas escolhas não funcionam ainda
+    @Delete(':id')
+    async deleteById(@Param() params: any): Promise<string> {
+        return this.quizzesService.deleteById(params.id);
+    }
+
     @Post('/question/:quizId')
-    async addQuestion(@Param() params: any, @Body() question: QuestionDTO): Promise<QuizResponseDTO> {
+    async addQuestion(
+        @Param() params: any,
+        @Body() question: QuestionDTO,
+    ): Promise<QuizResponseDTO> {
         return this.quizzesService.addQuestion(params.quizId, question);
+    }
+
+    @Get('/question/:quizId')
+    async findQuestionByText(
+        @Param('quizId') quizId: string,
+        @Query('questionText') questionText: string,
+    ): Promise<QuestionDTO> {
+        return this.quizzesService.findQuestionByText(quizId, questionText);
+    }
+
+    @Patch('question/:quizId')
+    async updateQuestion(
+        @Param('quizId') quizId: string,
+        @Query('questionText') questionText: string,
+        @Body('updatedQuestion') updatedQuestion: Partial<QuestionDTO>,
+    ): Promise<QuizResponseDTO> {
+        return this.quizzesService.updateQuestion(quizId, questionText, updatedQuestion);
+    }
+
+    @Delete('question/:quizId')
+    async removeQuestion(
+        @Param('quizId') quizId: string,
+        @Query('questionText') questionText: string,
+    ): Promise<QuizResponseDTO> {
+        return this.quizzesService.removeQuestion(quizId, questionText);
+    }
+
+    @Post('answer/:quizId')
+    async answerQuestion(
+        @Param('quizId') quizId: string,
+        @Query('questionText') questionText: string,
+        @Body('userAnswer') userAnswer: number | boolean,
+    ): Promise<boolean> {
+        return this.quizzesService.answerQuestion(
+            quizId,
+            questionText,
+            userAnswer,
+        );
     }
 }
