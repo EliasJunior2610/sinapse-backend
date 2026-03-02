@@ -7,72 +7,72 @@ export class QuizService {
     constructor(private quizRepository: QuizRepository) { }
 
     async create(quiz: QuizDTO): Promise<QuizResponseDTO> {
-            if (!quiz) throw new BadRequestException('quiz não enviado');
+        if (!quiz) throw new BadRequestException('quiz não enviado');
 
-            const response = await this.quizRepository.insertOne(quiz);
-            return response;
+        const response = await this.quizRepository.insertOne(quiz);
+        return response;
     }
 
     async findAll(): Promise<QuizResponseDTO[]> {
-            const response = await this.quizRepository.findAll();
-            return response;
+        const response = await this.quizRepository.findAll();
+        return response;
     }
 
     async findById(id: string): Promise<QuizResponseDTO> {
-            if (!id) {
-                throw new BadRequestException('id não enviado.')
-            }
+        if (!id) {
+            throw new BadRequestException('id não enviado.')
+        }
 
-            const response = await this.quizRepository.findById(id);
-            return response;
+        const response = await this.quizRepository.findById(id);
+        return response;
     }
 
     async findByIdAndUpdate(id: string, quiz: Partial<QuizDTO>): Promise<QuizResponseDTO> {
-            if (!id) {
-                throw new BadRequestException('id não enviado.')
-            }
+        if (!id) {
+            throw new BadRequestException('id não enviado.')
+        }
 
-            if (!quiz) {
-                throw new BadRequestException('Quiz não enviado.');
-            }
+        if (!quiz) {
+            throw new BadRequestException('Quiz não enviado.');
+        }
 
-            const response = await this.quizRepository.findByIdAndUpdate(id, quiz);
-            return response;
+        const response = await this.quizRepository.findByIdAndUpdate(id, quiz);
+        return response;
     }
 
     async deleteById(id: string): Promise<string> {
-            if (!id) {
-                throw new BadRequestException('id não enviado.')
-            }
+        if (!id) {
+            throw new BadRequestException('id não enviado.')
+        }
 
-            const response = await this.quizRepository.deleteById(id);
-            return response;
+        const response = await this.quizRepository.deleteById(id);
+        return response;
     }
 
     async addQuestion(id: string, question: QuestionDTO): Promise<QuizResponseDTO> {
-            if (!id) {
-                throw new BadRequestException('id não enviado.')
-            }
+        if (!id) {
+            throw new BadRequestException('id não enviado.')
+        }
 
-            if (!question) {
-                throw new BadRequestException('Questão não enviada.');
-            }
+        if (!question) {
+            throw new BadRequestException('Questão não enviada.');
+        }
 
-            const response = await this.quizRepository.addQuestion(id, question);
-            return response;
+        const response = await this.quizRepository.addQuestion(id, question);
+        return response;
     }
 
     async findQuestionByText(id: string, questionText: string): Promise<QuestionDTO> {
-            if (!id) {
-                throw new BadRequestException('id não enviado.');
-            }
+        if (!id) {
+            throw new BadRequestException('id não enviado.');
+        }
 
-            if (!questionText) {
-                throw new BadRequestException('Questão não enviada');
-            }
+        if (!questionText) {
+            throw new BadRequestException('Questão não enviada');
+        }
 
-            const response = await this.quizRepository.findQuestionByText(id, questionText);
-            return response;
+        const response = await this.quizRepository.findQuestionByText(id, questionText);
+        return response;
     }
 
     async updateQuestion(
@@ -80,27 +80,27 @@ export class QuizService {
         questionText: string,
         updatedQuestion: Partial<QuestionDTO>,
     ): Promise<QuizResponseDTO> {
-            if (!id || !questionText || !updatedQuestion) {
-                throw new BadRequestException('Parâmetros não enviados');
-            }
+        if (!id || !questionText || !updatedQuestion) {
+            throw new BadRequestException('Parâmetros não enviados');
+        }
 
-            const response = await this.quizRepository.updateQuestion(
-                id,
-                questionText,
-                updatedQuestion,
-            );
+        const response = await this.quizRepository.updateQuestion(
+            id,
+            questionText,
+            updatedQuestion,
+        );
 
-            return response;
+        return response;
     }
 
     async removeQuestion(id: string, questionText: string): Promise<QuizResponseDTO> {
-            if (!id || !questionText) {
-                throw new BadRequestException('Parâmetros não enviados');
-            }
+        if (!id || !questionText) {
+            throw new BadRequestException('Parâmetros não enviados');
+        }
 
-            const response = await this.quizRepository.removeQuestion(id, questionText);
+        const response = await this.quizRepository.removeQuestion(id, questionText);
 
-            return response;
+        return response;
     }
 
     async answerQuestion(
@@ -108,15 +108,15 @@ export class QuizService {
         questionText: string,
         userAnswer: number | boolean,
     ): Promise<boolean> {
-            if (!id || !questionText) {
-                throw new BadRequestException('Parâmetros não enviados');
-            }
+        if (!id || !questionText) {
+            throw new BadRequestException('Parâmetros não enviados');
+        }
 
-            const response = await this.quizRepository.answerQuestion(
-                id,
-                questionText,
-                userAnswer,
-            );
-            return response;
+        const response = await this.quizRepository.answerQuestion(
+            id,
+            questionText,
+            userAnswer,
+        );
+        return response;
     }
 }
