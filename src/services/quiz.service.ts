@@ -7,43 +7,27 @@ export class QuizService {
     constructor(private quizRepository: QuizRepository) { }
 
     async create(quiz: QuizDTO): Promise<QuizResponseDTO> {
-        try {
             if (!quiz) throw new BadRequestException('quiz não enviado');
 
             const response = await this.quizRepository.insertOne(quiz);
             return response;
-        } catch (error) {
-            console.error(error);
-            throw new InternalServerErrorException('Ocorreu um erro ao criar quiz.');
-        }
     }
 
     async findAll(): Promise<QuizResponseDTO[]> {
-        try {
             const response = await this.quizRepository.findAll();
             return response;
-        } catch (error) {
-            console.error(error);
-            throw new InternalServerErrorException('Ocorreu um erro ao buscar quizzes.');
-        }
     }
 
     async findById(id: string): Promise<QuizResponseDTO> {
-        try {
             if (!id) {
                 throw new BadRequestException('id não enviado.')
             }
 
             const response = await this.quizRepository.findById(id);
             return response;
-        } catch (error) {
-            console.error(error);
-            throw new InternalServerErrorException('Ocorreu um erro ao buscar pelo quiz.');
-        }
     }
 
     async findByIdAndUpdate(id: string, quiz: Partial<QuizDTO>): Promise<QuizResponseDTO> {
-        try {
             if (!id) {
                 throw new BadRequestException('id não enviado.')
             }
@@ -54,29 +38,18 @@ export class QuizService {
 
             const response = await this.quizRepository.findByIdAndUpdate(id, quiz);
             return response;
-        } catch (error) {
-            console.error(error);
-            throw new InternalServerErrorException('Ocorreu um erro ao atualizar quiz');
-        }
     }
 
     async deleteById(id: string): Promise<string> {
-        try {
             if (!id) {
                 throw new BadRequestException('id não enviado.')
             }
 
             const response = await this.quizRepository.deleteById(id);
             return response;
-        } catch (error) {
-            console.error(error);
-            throw new InternalServerErrorException('Ocorreu um erro ao remover quiz.');
-        }
     }
 
-    // duas perguntas podem ter o mesmo texto!
     async addQuestion(id: string, question: QuestionDTO): Promise<QuizResponseDTO> {
-        try {
             if (!id) {
                 throw new BadRequestException('id não enviado.')
             }
@@ -87,14 +60,9 @@ export class QuizService {
 
             const response = await this.quizRepository.addQuestion(id, question);
             return response;
-        } catch (error) {
-            console.error(error);
-            throw new InternalServerErrorException('Ocorreu um erro ao adicionar pergunta');
-        }
     }
 
     async findQuestionByText(id: string, questionText: string): Promise<QuestionDTO> {
-        try {
             if (!id) {
                 throw new BadRequestException('id não enviado.');
             }
@@ -105,10 +73,6 @@ export class QuizService {
 
             const response = await this.quizRepository.findQuestionByText(id, questionText);
             return response;
-        } catch (error) {
-            console.error(error);
-            throw new InternalServerErrorException('Ocorreu um erro ao retornar pergunta');
-        }
     }
 
     async updateQuestion(
@@ -116,7 +80,6 @@ export class QuizService {
         questionText: string,
         updatedQuestion: Partial<QuestionDTO>,
     ): Promise<QuizResponseDTO> {
-        try {
             if (!id || !questionText || !updatedQuestion) {
                 throw new BadRequestException('Parâmetros não enviados');
             }
@@ -128,14 +91,9 @@ export class QuizService {
             );
 
             return response;
-        } catch (error) {
-            console.error(error);
-            throw new InternalServerErrorException('Ocorreu um erro ao atualizar pergunta');
-        }
     }
 
     async removeQuestion(id: string, questionText: string): Promise<QuizResponseDTO> {
-        try {
             if (!id || !questionText) {
                 throw new BadRequestException('Parâmetros não enviados');
             }
@@ -143,10 +101,6 @@ export class QuizService {
             const response = await this.quizRepository.removeQuestion(id, questionText);
 
             return response;
-        } catch (error) {
-            console.error(error);
-            throw new InternalServerErrorException('Ocorreu um erro ao remover a pergunta');
-        }
     }
 
     async answerQuestion(
@@ -154,7 +108,6 @@ export class QuizService {
         questionText: string,
         userAnswer: number | boolean,
     ): Promise<boolean> {
-        try {
             if (!id || !questionText) {
                 throw new BadRequestException('Parâmetros não enviados');
             }
@@ -165,9 +118,5 @@ export class QuizService {
                 userAnswer,
             );
             return response;
-        } catch (error) {
-            console.error(error);
-            throw new InternalServerErrorException('Ocorreu um erro ao responder a pergunta');
-        }
     }
 }

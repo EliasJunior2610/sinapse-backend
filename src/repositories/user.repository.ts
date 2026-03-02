@@ -103,10 +103,6 @@ export class UserRepository {
     async findByEmail(email: string) {
         const user = await this.User.findOne({ email }).lean();
 
-        if (!user) {
-            throw new NotFoundException('Usuário não encontrado');
-        }
-
         return user;
     }
 }
