@@ -1,5 +1,5 @@
 import { UserRepository } from "src/repositories/user.repository";
-import { Injectable, BadRequestException, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { Injectable, BadRequestException, InternalServerErrorException, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { UserDTO, UserResponseDTO, CreateUserDTO, LoggedUserDTO } from "src/DTOs/UserDTO";
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
@@ -9,85 +9,60 @@ export class UsersService {
     constructor(private userRepository: UserRepository) { }
 
     async create(user: CreateUserDTO): Promise<UserResponseDTO> {
-        try {
-            if (!user) throw new BadRequestException('Usuário não enviado.');
+        if (!user) throw new BadRequestException('Usuário não enviado.');
 
-            const saltRounds = 10;
+        const saltRounds = 10;
 
-            const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+        const hashedPassword = await bcrypt.hash(user.password, saltRounds);
 
-            const userToSave = {
-                ...user,
-                password: hashedPassword,
-            }
-
-            const response = await this.userRepository.insertOne(userToSave);
-            return response;
-        } catch (error) {
-            console.log(error);
-            throw new InternalServerErrorException('Erro ao cadastrar usuário.');
+        const userToSave = {
+            ...user,
+            password: hashedPassword,
         }
+
+        const response = await this.userRepository.insertOne(userToSave);
+        return response;
     }
 
     async findAll(): Promise<UserResponseDTO[]> {
-        try {
-            const response = await this.userRepository.findAll();
-            return response;
-        } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException('Erro ao retornar usuários');
-        }
+        const response = await this.userRepository.findAll();
+        return response;
     }
 
     async findById(id: string): Promise<UserResponseDTO> {
-        try {
-            if (!id) throw new BadRequestException('id de usuário não enviado');
+        if (!id) throw new BadRequestException('id de usuário não enviado');
 
-            const response = await this.userRepository.findById(id);
-            return response;
-        } catch (error) {
-            console.log(error);
-            throw new NotFoundException('Erro ao retornar usuário');
-        }
+        const response = await this.userRepository.findById(id);
+        return response;
     }
 
     async deleteById(id: string): Promise<string> {
-        try {
-            if (!id) throw new BadRequestException('id de usuário não enviado');
+        if (!id) throw new BadRequestException('id de usuário não enviado');
 
-            const response = await this.userRepository.deleteById(id);
-            return response;
-        } catch (error) {
-            console.error(error);
-            throw new NotFoundException('Erro ao remover usuário');
-        }
+        const response = await this.userRepository.deleteById(id);
+        return response;
     }
 
     async updateById(id: string, updatedUser: Partial<UserDTO>): Promise<UserResponseDTO> {
-        try {
-            if (!id) throw new BadRequestException('id de usuário não enviado.');
+        if (!id) throw new BadRequestException('id de usuário não enviado.');
 
-            if (!updatedUser) throw new BadRequestException('Usuário não enviado.');
+        if (!updatedUser) throw new BadRequestException('Usuário não enviado.');
 
-            const response = await this.userRepository.findByIdAndUpdate(id, updatedUser);
-            return response;
-        } catch (error) {
-            console.error(error);
-            throw new NotFoundException('Erro ao atualizar usuário');
-        }
+        const response = await this.userRepository.findByIdAndUpdate(id, updatedUser);
+        return response;
     }
 
     async login(email: string, password: string): Promise<LoggedUserDTO> {
         const user = await this.userRepository.findByEmail(email);
 
         if (!user) {
-            throw new Error('Usuário não encontrado');
+            throw new UnauthorizedException('Credenciais inválidas');
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (!passwordMatch) {
-            throw new Error('Senha inválida');
+            throw new UnauthorizedException('Credenciais inválidas');
         }
 
         const token = jwt.sign(
