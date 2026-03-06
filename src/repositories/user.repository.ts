@@ -105,4 +105,14 @@ export class UserRepository {
 
         return user;
     }
+
+    async isAdmin(userId: string): Promise<boolean> {
+        const user = await this.User.findById(userId);
+
+        if (!user) {
+            throw new NotFoundException('Usuário não encontrado.');
+        }
+
+        return user.is_admin;
+    }
 }
