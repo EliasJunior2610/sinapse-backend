@@ -91,3 +91,8 @@ export class LoggedUserDTO {
     @ApiProperty()
     points: number;
 }
+
+export class UserIdDTO {
+    @ApiProperty()
+    userId: string;
+}

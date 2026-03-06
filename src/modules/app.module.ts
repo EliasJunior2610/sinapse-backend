@@ -2,6 +2,7 @@ import { Module, MiddlewareConsumer, NestModule, RequestMethod } from '@nestjs/c
 import { AppController } from '../controllers/app.controller';
 import { AppService } from '../services/app.service';
 import { ConfigModule } from '@nestjs/config';
+import { SemesterModule } from './semester.module';
 import { UserModule } from './user.module';
 import { QuizModule } from './quiz.module';
 import { AuthMiddleware } from 'src/middleware/logger.middleware';
@@ -12,6 +13,7 @@ import { AuthMiddleware } from 'src/middleware/logger.middleware';
       isGlobal: true,
     }),
     UserModule,
+    SemesterModule,
     QuizModule,
   ],
   controllers: [AppController],
@@ -27,6 +29,7 @@ export class AppModule implements NestModule {
       )
       .forRoutes(
         'users',
+        'semesters',
         'quizzes',
       )
   }
