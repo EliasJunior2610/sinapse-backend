@@ -17,7 +17,7 @@ export class QuizRepository {
         const response = await doc.save();
 
         return {
-            _id: response._id,
+            _id: response._id.toString(),
             name: response.name,
             description: response.description,
             user_id: response.user_id,
@@ -35,7 +35,7 @@ export class QuizRepository {
         const quizzes = await this.Quiz.find({}).lean();
 
         return quizzes.map(quiz => ({
-            _id: quiz._id,
+            _id: quiz._id.toString(),
             name: quiz.name,
             description: quiz.description,
             user_id: quiz.user_id,
@@ -57,7 +57,7 @@ export class QuizRepository {
         }
 
         return {
-            _id: quiz._id,
+            _id: quiz._id.toString(),
             name: quiz.name,
             description: quiz.description,
             user_id: quiz.user_id,
@@ -83,7 +83,7 @@ export class QuizRepository {
         }
 
         return {
-            _id: quiz._id,
+            _id: quiz._id.toString(),
             name: quiz.name,
             description: quiz.description,
             user_id: quiz.user_id,
@@ -134,7 +134,7 @@ export class QuizRepository {
         }
 
         return {
-            _id: quiz._id,
+            _id: quiz._id.toString(),
             name: quiz.name,
             description: quiz.description,
             user_id: quiz.user_id,
@@ -197,7 +197,7 @@ export class QuizRepository {
         }
 
         return {
-            _id: quiz._id,
+            _id: quiz._id.toString(),
             name: quiz.name,
             description: quiz.description,
             user_id: quiz.user_id,
@@ -226,7 +226,7 @@ export class QuizRepository {
         }
 
         return {
-            _id: quiz._id,
+            _id: quiz._id.toString(),
             name: quiz.name,
             description: quiz.description,
             user_id: quiz.user_id,

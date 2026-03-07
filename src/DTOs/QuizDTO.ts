@@ -1,5 +1,4 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Types } from "mongoose";
 
 export class QuizDTO {
     @ApiProperty()
@@ -7,7 +6,7 @@ export class QuizDTO {
     @ApiProperty()
     description: string;
     @ApiProperty()
-    user_id: Types.ObjectId; // quiz creator
+    user_id: string; // quiz creator
     @ApiProperty()
     questions?: {
         question: string;
@@ -16,18 +15,18 @@ export class QuizDTO {
         boolean_answer?: boolean; // when it's a boolean question
     }[];
     @ApiProperty()
-    categories_ids?: Types.ObjectId[];
+    categories_ids?: string[];
 }
 
 export class QuizResponseDTO {
     @ApiProperty()
-    _id: Types.ObjectId;
+    _id: string;
     @ApiProperty()
     name: string;
     @ApiProperty()
     description: string;
     @ApiProperty()
-    user_id: Types.ObjectId; // quiz creator
+    user_id: string; // quiz creator
     @ApiProperty()
     questions: {
         question: string;
@@ -36,7 +35,7 @@ export class QuizResponseDTO {
         boolean_answer?: boolean; // when it's a boolean question
     }[];
     @ApiProperty()
-    categories_ids?: Types.ObjectId[];
+    categories_ids?: string[];
 }
 
 export class QuestionDTO {
