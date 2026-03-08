@@ -1,5 +1,5 @@
 import { Controller, Post, Get, Patch, Delete, Body, Param, Query } from "@nestjs/common";
-import { ApiOperation, ApiBody, ApiParam, ApiQuery, ApiResponse, ApiBearerAuth } from "@nestjs/swagger";
+import { ApiOperation, ApiBody, ApiParam, ApiQuery, ApiBearerAuth } from "@nestjs/swagger";
 import { QuizService } from "src/services/quiz.service";
 import { QuizDTO, QuizResponseDTO, QuestionDTO } from "src/DTOs/QuizDTO";
 
