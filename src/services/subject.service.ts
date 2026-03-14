@@ -25,4 +25,12 @@ export class SubjectService {
 
         return this.subjectRepository.deleteById(id);
     }
+
+    async findById(id: string): Promise<SubjectResponseDTO> {
+        if (!id) {
+            throw new BadRequestException('Id não enviado.');
+        }
+
+        return this.subjectRepository.findById(id);
+    }
 }
