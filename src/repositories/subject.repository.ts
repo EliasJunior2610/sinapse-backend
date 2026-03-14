@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import mongoose from "src/config/mongodb";
 import { SubjectDTO, SubjectResponseDTO } from "src/DTOs/SubjectDTO";
 import { subjectSchema } from "src/schemas/subject.schema";
@@ -17,11 +17,48 @@ export class SubjectRepository {
             user_id: subject.user_id,
             quizzes_ids: subject.quizzes_ids,
             students_ids: subject.students_ids,
+            semester_id: subject.semester_id,
             ranking: subject.ranking.map((rank: any) => ({
                 user_id: rank.user_id,
                 answered_questions: rank.answered_questions,
                 correct_answers: rank.correct_answers,
             })),
         }));
+    }
+
+    async create(subject: SubjectDTO): Promise<SubjectResponseDTO> {
+        const subjectExists = await this.Subject.findOne({ name: subject.name });
+
+        if (subjectExists) {
+            throw new BadRequestException('A disciplina já existe.');
+        }
+
+        const doc = new this.Subject(subject);
+        const response = await doc.save();
+
+        return {
+            _id: response._id.toString(),
+            name: response.name,
+            description: response.description,
+            user_id: response.user_id,
+            quizzes_ids: response.quizzes_ids,
+            students_ids: response.students_ids,
+            semester_id: response.semester_id,
+            ranking: response.ranking.map((r: any) => ({
+                user_id: r.user_id,
+                answered_questions: r.answered_questions,
+                correct_answers: r.correct_answers,
+            })),
+        };
+    }
+
+    async deleteById(id: string): Promise<string> {
+        const subject = await this.Subject.findByIdAndDelete(id);
+
+        if (!subject) {
+            throw new BadRequestException('Disciplina não encontrada.');
+        }
+
+        return 'Disciplina removida com sucesso.';
     }
 }

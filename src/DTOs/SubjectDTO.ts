@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 export class SubjectDTO {
     @ApiProperty()
     name: string;
-    
+
     @ApiProperty()
     description: string;
 
@@ -17,7 +17,10 @@ export class SubjectDTO {
     students_ids: string[];
 
     @ApiProperty()
-    semesters_ids?: string[];
+    semester_id: string;
+
+    @ApiProperty()
+    invitation_code?: string;
 
     @ApiProperty()
     ranking: {
@@ -33,7 +36,7 @@ export class SubjectResponseDTO {
 
     @ApiProperty()
     name: string;
-    
+
     @ApiProperty()
     description: string;
 
@@ -47,7 +50,10 @@ export class SubjectResponseDTO {
     students_ids: string[];
 
     @ApiProperty()
-    semesters_ids?: string[];
+    semester_id: string;
+
+    @ApiProperty()
+    invitation_code?: string;
 
     @ApiProperty()
     ranking: {
