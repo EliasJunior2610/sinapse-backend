@@ -48,6 +48,14 @@ export class UsersService {
 
         if (!updatedUser) throw new BadRequestException('Usuário não enviado.');
 
+        if (updatedUser.password) {
+            const saltRounds = 10;
+
+            const hashedPassword = await bcrypt.hash(updatedUser.password, saltRounds);
+
+            updatedUser.password = hashedPassword;
+        }
+
         const response = await this.userRepository.findByIdAndUpdate(id, updatedUser);
         return response;
     }

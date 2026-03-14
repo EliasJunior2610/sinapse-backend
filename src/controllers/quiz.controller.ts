@@ -1,5 +1,5 @@
 import { Controller, Post, Get, Patch, Delete, Body, Param, Query } from "@nestjs/common";
-import { ApiOperation, ApiBody, ApiParam, ApiQuery, ApiResponse, ApiBearerAuth } from "@nestjs/swagger";
+import { ApiOperation, ApiBody, ApiParam, ApiQuery, ApiBearerAuth } from "@nestjs/swagger";
 import { QuizService } from "src/services/quiz.service";
 import { QuizDTO, QuizResponseDTO, QuestionDTO } from "src/DTOs/QuizDTO";
 
@@ -23,14 +23,14 @@ export class QuizController {
 
     @Get(':id')
     @ApiOperation({ summary: 'Buscar quiz por ID' })
-    @ApiParam({ name: 'id', type: String })
+    @ApiParam({ name: 'id', type: String, description: 'ID do quiz' })
     async findById(@Param() params: any): Promise<QuizResponseDTO> {
         return this.quizzesService.findById(params.id);
     }
 
     @Patch(':id')
     @ApiOperation({ summary: 'Atualizar um quiz' })
-    @ApiParam({ name: 'id', type: String })
+    @ApiParam({ name: 'id', type: String, description: 'ID do quiz' })
     // @ApiBody({ type: QuizDTO })
     async findByIdAndUpdate(
         @Param() params: any,
@@ -50,7 +50,7 @@ export class QuizController {
 
     @Post('/question/:quizId')
     @ApiOperation({ summary: 'Adicionar pergunta ao quiz' })
-    @ApiParam({ name: 'quizId', type: String })
+    @ApiParam({ name: 'quizId', type: String, description: 'ID do quiz' })
     @ApiBody({ type: QuestionDTO })
     async addQuestion(
         @Param() params: any,
@@ -61,8 +61,8 @@ export class QuizController {
 
     @Get('/question/:quizId')
     @ApiOperation({ summary: 'Buscar pergunta pelo texto' })
-    @ApiParam({ name: 'quizId', type: String })
-    @ApiQuery({ name: 'questionText', type: String })
+    @ApiParam({ name: 'quizId', type: String, description: 'ID do quiz' })
+    @ApiQuery({ name: 'questionText', type: String, description: 'texto da pergunta' })
     async findQuestionByText(
         @Param('quizId') quizId: string,
         @Query('questionText') questionText: string,
@@ -72,8 +72,8 @@ export class QuizController {
 
     @Patch('question/:quizId')
     @ApiOperation({ summary: 'Atualizar uma pergunta' })
-    @ApiParam({ name: 'quizId', type: String })
-    @ApiQuery({ name: 'questionText', type: String })
+    @ApiParam({ name: 'quizId', type: String, description: 'ID do quiz' })
+    @ApiQuery({ name: 'questionText', type: String, description: 'texto da pergunta' })
     @ApiBody({
         schema: {
             type: 'object',
@@ -100,8 +100,8 @@ export class QuizController {
 
     @Delete('question/:quizId')
     @ApiOperation({ summary: 'Remover uma pergunta do quiz' })
-    @ApiParam({ name: 'quizId', type: String })
-    @ApiQuery({ name: 'questionText', type: String })
+    @ApiParam({ name: 'quizId', type: String, description: 'ID do quiz' })
+    @ApiQuery({ name: 'questionText', type: String, description: 'texto da pergunta' })
     async removeQuestion(
         @Param('quizId') quizId: string,
         @Query('questionText') questionText: string,
@@ -111,8 +111,8 @@ export class QuizController {
 
     @Post('answer/:quizId')
     @ApiOperation({ summary: 'Responder uma pergunta' })
-    @ApiParam({ name: 'quizId', type: String })
-    @ApiQuery({ name: 'questionText', type: String })
+    @ApiParam({ name: 'quizId', type: String, description: 'ID do quiz' })
+    @ApiQuery({ name: 'questionText', type: String, description: 'texto da pergunta' })
     @ApiBody({
         schema: {
             type: 'object',

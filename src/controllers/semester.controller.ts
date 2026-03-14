@@ -24,32 +24,32 @@ export class SemesterController {
 
     @Get(':id')
     @ApiOperation({ summary: 'Listar semestre por ID' })
-    @ApiParam({ name: 'id', type: String })
+    @ApiParam({ name: 'id', type: String, description: 'ID do semestre' })
     async findById(@Param() params: any): Promise<SemesterResponseDTO> {
         return this.semesterService.findById(params.id);
     }
 
     @Delete(':semesterId')
     @ApiOperation({ summary: 'Remover um semestre' })
-    @ApiParam({ name: 'semesterId', type: String })
+    @ApiParam({ name: 'semesterId', type: String, description: 'ID do semestre' })
     async deleteById(@Param() params: any, @Body() userId: UserIdDTO): Promise<string> {
         return this.semesterService.deleteById(userId.userId, params.semesterId);
     }
 
     @Put(':semesterId')
     @ApiOperation({ summary: 'Atualizar um semestre' })
-    @ApiParam({ name: 'semesterId', type: String })
+    @ApiParam({ name: 'semesterId', type: String, description: 'ID do semestre' })
     @ApiBody({ type: UpdateSemesterBodyDTO })
     async updateById(
         @Param() params: any,
         @Body() updateSemester: UpdateSemesterBodyDTO
     ): Promise<SemesterResponseDTO> {
-            const request: UpdateSemesterDTO = {
-                userId: updateSemester.userId,
-                semesterId: params.semesterId,
-                name: updateSemester.name,
-            };
+        const request: UpdateSemesterDTO = {
+            userId: updateSemester.userId,
+            semesterId: params.semesterId,
+            name: updateSemester.name,
+        };
 
-            return this.semesterService.updateById(request);
-        }
+        return this.semesterService.updateById(request);
+    }
 }

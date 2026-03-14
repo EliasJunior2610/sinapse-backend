@@ -3,6 +3,7 @@ import { AppController } from '../controllers/app.controller';
 import { AppService } from '../services/app.service';
 import { ConfigModule } from '@nestjs/config';
 import { SemesterModule } from './semester.module';
+import { SubjectModule } from './subject.module';
 import { UserModule } from './user.module';
 import { QuizModule } from './quiz.module';
 import { AuthMiddleware } from 'src/middleware/logger.middleware';
@@ -15,6 +16,7 @@ import { AuthMiddleware } from 'src/middleware/logger.middleware';
     UserModule,
     SemesterModule,
     QuizModule,
+    SubjectModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -30,6 +32,7 @@ export class AppModule implements NestModule {
       .forRoutes(
         'users',
         'semesters',
+        'subjects',
         'quizzes',
       )
   }
