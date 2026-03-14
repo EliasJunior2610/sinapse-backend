@@ -27,4 +27,11 @@ export class SubjectController {
     async deleteById(@Param() params: any): Promise<string> {
         return this.subjectService.deleteById(params.id);
     }
+
+    @Get(':id')
+    @ApiOperation({ summary: 'Buscar disciplina por ID' })
+    @ApiParam({ name: 'id', type: String, description: 'ID da disciplina' })
+    async findById(@Param() params: any): Promise<SubjectResponseDTO> {
+        return this.subjectService.findById(params.id);
+    }
 }

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import mongoose from "src/config/mongodb";
 import { SubjectDTO, SubjectResponseDTO } from "src/DTOs/SubjectDTO";
 import { subjectSchema } from "src/schemas/subject.schema";
@@ -60,5 +60,28 @@ export class SubjectRepository {
         }
 
         return 'Disciplina removida com sucesso.';
+    }
+
+    async findById(id: string): Promise<SubjectResponseDTO> {
+        const subject = await this.Subject.findById(id);
+
+        if (!subject) {
+            throw new NotFoundException('Disciplina não encontrada');
+        }
+
+        return {
+            _id: subject._id.toString(),
+            name: subject.name,
+            description: subject.description,
+            user_id: subject.user_id,
+            quizzes_ids: subject.quizzes_ids,
+            students_ids: subject.students_ids,
+            semester_id: subject.semester_id,
+            ranking: subject.ranking.map((r: any) => ({
+                user_id: r.user_id,
+                answered_questions: r.answered_questions,
+                correct_answers: r.correct_answers,
+            })),
+        };
     }
 }
