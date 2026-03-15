@@ -41,6 +41,9 @@ export class UserResponseDTO {
     paying: boolean;
 
     @ApiProperty()
+    is_admin: boolean;
+
+    @ApiProperty()
     answered_questions: number;
 
     @ApiProperty()

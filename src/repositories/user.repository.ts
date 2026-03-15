@@ -34,6 +34,7 @@ export class UserRepository {
             name: response.name!,
             email: response.email!,
             paying: response.paying!,
+            is_admin: response.is_admin,
             answered_questions: response.answered_questions!,
             points: response.points!,
         }
@@ -47,6 +48,7 @@ export class UserRepository {
             name: user.name!,
             email: user.email!,
             paying: user.paying!,
+            is_admin: user.is_admin,
             answered_questions: user.answered_questions!,
             points: user.points!,
         }))
@@ -64,6 +66,7 @@ export class UserRepository {
             name: user.name!,
             email: user.email!,
             paying: user.paying!,
+            is_admin: user.is_admin,
             answered_questions: user.answered_questions!,
             points: user.points!,
         }
@@ -95,6 +98,7 @@ export class UserRepository {
             name: user.name!,
             email: user.email!,
             paying: user.paying!,
+            is_admin: user.is_admin,
             answered_questions: user.answered_questions!,
             points: user.points!,
         };
