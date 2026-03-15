@@ -1,8 +1,8 @@
-import { Schema } from "mongoose";
+import { Schema } from 'mongoose';
 
 export const semesterSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-    }
+  name: {
+    type: String,
+    required: true,
+  },
 });

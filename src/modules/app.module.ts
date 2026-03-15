@@ -1,4 +1,9 @@
-import { Module, MiddlewareConsumer, NestModule, RequestMethod } from '@nestjs/common';
+import {
+  Module,
+  MiddlewareConsumer,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from '../controllers/app.controller';
 import { AppService } from '../services/app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -29,11 +34,6 @@ export class AppModule implements NestModule {
         { path: 'users', method: RequestMethod.POST },
         { path: 'users/login', method: RequestMethod.POST },
       )
-      .forRoutes(
-        'users',
-        'semesters',
-        'subjects',
-        'quizzes',
-      )
+      .forRoutes('users', 'semesters', 'subjects', 'quizzes');
   }
 }
