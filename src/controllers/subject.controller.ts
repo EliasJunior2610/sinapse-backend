@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Delete, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import {
   ApiOperation,
   ApiBearerAuth,
@@ -7,6 +15,7 @@ import {
 } from '@nestjs/swagger';
 import { SubjectService } from 'src/services/subject.service';
 import {
+  AddQuizDTO,
   SubjectDTO,
   SubjectResponseDTO,
   SubscribeUserDTO,
@@ -61,5 +70,35 @@ export class SubjectController {
       body.user_id,
       body.invitation_code,
     );
+  }
+
+  @Post('/add-quiz/:subject_id')
+  @ApiOperation({ summary: 'Adicionar um quiz à disciplina' })
+  @ApiParam({
+    name: 'subject_id',
+    type: String,
+    description: 'ID da disciplina',
+  })
+  @ApiBody({ type: AddQuizDTO })
+  async addQuiz(
+    @Param('subject_id') subject_id: string,
+    @Body() body: AddQuizDTO,
+  ): Promise<SubjectResponseDTO> {
+    return this.subjectService.addQuiz(subject_id, body.quiz_id);
+  }
+
+  @Patch(':subject_id')
+  @ApiOperation({ summary: 'Atualizar a disciplina' })
+  @ApiParam({
+    name: 'subject_id',
+    type: String,
+    description: 'ID da disciplina',
+  })
+  @ApiBody({ type: SubjectDTO })
+  async updateById(
+    @Param('subject_id') subject_id: string,
+    @Body() body: Partial<SubjectDTO>,
+  ): Promise<SubjectResponseDTO> {
+    return this.subjectService.updateById(subject_id, body);
   }
 }
