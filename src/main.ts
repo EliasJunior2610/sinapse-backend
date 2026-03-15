@@ -8,7 +8,7 @@ async function bootstrap() {
     .addBearerAuth()
     .setTitle('Documentação da API')
     .setDescription('Rotas documentadas abaixo:')
-    .setVersion('1.0')
+    .setVersion('1.1')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
