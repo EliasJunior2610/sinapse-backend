@@ -70,3 +70,8 @@ export class SubscribeUserDTO {
   @ApiProperty()
   invitation_code: string;
 }
+
+export class AddQuizDTO {
+  @ApiProperty()
+  quiz_id: string;
+}

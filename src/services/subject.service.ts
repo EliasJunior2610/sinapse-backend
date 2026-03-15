@@ -1,5 +1,6 @@
 import { SubjectRepository } from 'src/repositories/subject.repository';
 import { UserRepository } from 'src/repositories/user.repository';
+import { QuizRepository } from 'src/repositories/quiz.repository';
 import {
   BadRequestException,
   Injectable,
@@ -12,6 +13,7 @@ export class SubjectService {
   constructor(
     private subjectRepository: SubjectRepository,
     private userRepository: UserRepository,
+    private quizRepository: QuizRepository,
   ) {}
 
   async findAll(): Promise<SubjectResponseDTO[]> {
@@ -66,6 +68,32 @@ export class SubjectService {
       user_id,
       invitation_code,
     );
+  }
+
+  async addQuiz(
+    subject_id: string,
+    quiz_id: string,
+  ): Promise<SubjectResponseDTO> {
+    const quizExists = await this.quizRepository.findById(quiz_id);
+
+    if (!quizExists) {
+      throw new NotFoundException('Quiz não encontrado');
+    }
+
+    return this.subjectRepository.addQuiz(subject_id, quiz_id);
+  }
+
+  async updateById(
+    subject_id: string,
+    updatedSubject: Partial<SubjectDTO>,
+  ): Promise<SubjectResponseDTO> {
+    if (updatedSubject.invitation_code) {
+      throw new BadRequestException(
+        'Não é permitido modificar o código de convite',
+      );
+    }
+
+    return this.subjectRepository.updateById(subject_id, updatedSubject);
   }
 
   // função auxiliar
