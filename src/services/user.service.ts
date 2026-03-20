@@ -1,3 +1,5 @@
+const nodemailer = require('nodemailer');
+
 import { UserRepository } from 'src/repositories/user.repository';
 import {
   Injectable,
@@ -114,4 +116,49 @@ export class UsersService {
       points: user.points,
     };
   }
+
+  async forgotPassword(email: string): Promise<string> {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const user = await this.userRepository.findByEmail(email);
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    const newPassword = generateRandomPassword();
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await this.userRepository.findByIdAndUpdate(user._id as unknown as string, {
+      password: hashedPassword,
+    });
+
+    await transporter.sendMail({
+      from: `"${process.env.EMAIL_NAME}" <${process.env.EMAIL_USER}>`,
+      to: user.email,
+      subject: 'Recuperação de Senha',
+      html: `Sua nova senha: <b>${newPassword}</b>`,
+    });
+
+    return 'Nova senha enviada para o seu e-mail.';
+  }
+}
+
+// funções utilitárias
+function generateRandomPassword(length = 10) {
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
+
+  return Array.from({ length }, () =>
+    chars.charAt(Math.floor(Math.random() * chars.length)),
+  ).join('');
 }

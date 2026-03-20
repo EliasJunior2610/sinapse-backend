@@ -99,3 +99,8 @@ export class UserIdDTO {
   @ApiProperty()
   userId: string;
 }
+
+export class UserEmailDTO {
+  @ApiProperty()
+  email: string;
+}
