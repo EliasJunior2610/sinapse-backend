@@ -100,7 +100,10 @@ export class UserIdDTO {
   userId: string;
 }
 
-export class UserEmailDTO {
+export class ForgotPasswordDTO {
   @ApiProperty()
   email: string;
+
+  @ApiProperty()
+  name: string;
 }

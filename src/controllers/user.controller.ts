@@ -20,7 +20,7 @@ import {
   UserResponseDTO,
   CreateUserDTO,
   LoggedUserDTO,
-  UserEmailDTO,
+  ForgotPasswordDTO,
 } from 'src/DTOs/UserDTO';
 
 @ApiBearerAuth()
@@ -81,8 +81,8 @@ export class UserController {
   @ApiOperation({
     summary: 'Cria uma senha nova e a envia para o e-mail do usuário',
   })
-  @ApiBody({ type: UserEmailDTO })
-  async forgotPassword(@Body() body: UserEmailDTO): Promise<string> {
-    return this.usersService.forgotPassword(body.email);
+  @ApiBody({ type: ForgotPasswordDTO })
+  async forgotPassword(@Body() body: ForgotPasswordDTO): Promise<string> {
+    return this.usersService.forgotPassword(body);
   }
 }
