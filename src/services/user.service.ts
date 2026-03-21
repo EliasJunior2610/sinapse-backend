@@ -13,6 +13,7 @@ import {
   UserResponseDTO,
   CreateUserDTO,
   LoggedUserDTO,
+  ForgotPasswordDTO,
 } from 'src/DTOs/UserDTO';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
@@ -117,7 +118,7 @@ export class UsersService {
     };
   }
 
-  async forgotPassword(email: string): Promise<string> {
+  async forgotPassword(body: ForgotPasswordDTO): Promise<string> {
     const transporter = nodemailer.createTransport({
       host: 'smtp.ethereal.email',
       port: 587,
@@ -128,10 +129,14 @@ export class UsersService {
       },
     });
 
-    const user = await this.userRepository.findByEmail(email);
+    const user = await this.userRepository.findByEmail(body.email);
 
     if (!user) {
       throw new NotFoundException('Usuário não encontrado');
+    }
+
+    if (user.name !== body.name) {
+      throw new BadRequestException('Credenciais inválidas.');
     }
 
     const newPassword = generateRandomPassword();

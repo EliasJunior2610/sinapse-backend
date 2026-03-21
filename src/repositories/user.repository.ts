@@ -128,4 +128,8 @@ export class UserRepository {
 
     return user.is_admin;
   }
+
+  async findByName(name: string) {
+    return await this.User.findOne({ name }).lean();
+  }
 }
