@@ -107,3 +107,15 @@ export class ForgotPasswordDTO {
   @ApiProperty()
   name: string;
 }
+
+
+export class RankingDTO {
+  @ApiProperty()
+  _id: string;
+
+  @ApiProperty()
+  name: string;
+
+  @ApiProperty()
+  points: number;
+}

@@ -20,11 +20,24 @@ import {
   SubjectResponseDTO,
   SubscribeUserDTO,
 } from 'src/DTOs/SubjectDTO';
+import { RankingDTO } from 'src/DTOs/UserDTO';
 
 @ApiBearerAuth()
 @Controller('/subjects')
 export class SubjectController {
-  constructor(private subjectService: SubjectService) {}
+  constructor(private subjectService: SubjectService) { }
+
+  @Get('/ranking/:id')
+  @ApiOperation({ summary: 'Retornar o ranque da disciplina' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    schema: { type: 'string' },
+  })
+  async ranking(@Param('id') id: string): Promise<RankingDTO[]> {
+    console.log({ id });
+    return this.subjectService.ranking(id);
+  }
 
   @Get()
   @ApiOperation({ summary: 'Listar todas as disciplinas' })
