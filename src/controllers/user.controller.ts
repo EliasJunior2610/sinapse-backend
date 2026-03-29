@@ -21,12 +21,13 @@ import {
   CreateUserDTO,
   LoggedUserDTO,
   ForgotPasswordDTO,
+  RankingDTO,
 } from 'src/DTOs/UserDTO';
 
 @ApiBearerAuth()
 @Controller('/users')
 export class UserController {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) { }
 
   @Post()
   @ApiOperation({ summary: 'Criar novo usuário' })
@@ -39,6 +40,14 @@ export class UserController {
   @ApiOperation({ summary: 'Retorna todos os usuários' })
   async findAll(): Promise<UserResponseDTO[]> {
     return this.usersService.findAll();
+  }
+
+  @Get('/ranking')
+  @ApiOperation({
+    summary: 'Retorna o ranque dos usuários',
+  })
+  async ranking(): Promise<RankingDTO[]> {
+    return this.usersService.ranking();
   }
 
   @Get(':id')

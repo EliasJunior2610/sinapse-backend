@@ -7,6 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { SubjectDTO, SubjectResponseDTO } from 'src/DTOs/SubjectDTO';
+import { RankingDTO, UserResponseDTO } from 'src/DTOs/UserDTO';
 
 @Injectable()
 export class SubjectService {
@@ -14,7 +15,7 @@ export class SubjectService {
     private subjectRepository: SubjectRepository,
     private userRepository: UserRepository,
     private quizRepository: QuizRepository,
-  ) {}
+  ) { }
 
   async findAll(): Promise<SubjectResponseDTO[]> {
     return this.subjectRepository.findAll();
@@ -94,6 +95,32 @@ export class SubjectService {
     }
 
     return this.subjectRepository.updateById(subject_id, updatedSubject);
+  }
+
+  async ranking(subject_id: string): Promise<RankingDTO[]> {
+    const subject: SubjectResponseDTO = await this.subjectRepository.findById(subject_id);
+
+    const users: UserResponseDTO[] = await this.userRepository.findAll();
+
+    if (!users) {
+      throw new NotFoundException('Usuários não encontrados.');
+    }
+
+    const usersPoints: RankingDTO[] = users.map(user => ({
+      _id: user._id as unknown as string,
+      name: user.name,
+      points: user.points,
+    }));
+
+    // Ordenando todos os usuários com base na pontuação
+    const ranking: RankingDTO[] = usersPoints.sort((a, b) => b.points - a.points);
+
+    //filtrando os usuários por disciplina
+    const filteredRanking: RankingDTO[] = ranking.filter(rank =>
+      subject.students_ids.includes(rank._id),
+    );
+
+    return filteredRanking;
   }
 
   // função auxiliar
