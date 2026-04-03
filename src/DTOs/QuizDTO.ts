@@ -13,6 +13,7 @@ export class QuizDTO {
     possible_answers?: string[]; // when there are multiple choices
     answer?: number[]; // when there are multiple choices
     boolean_answer?: boolean; // when it's a boolean question
+    weight?: number;
   }[];
   @ApiProperty()
   categories_ids?: string[];
@@ -33,6 +34,7 @@ export class QuizResponseDTO {
     possible_answers?: string[]; // when there are multiple choices
     answer?: number[]; // when there are multiple choices
     boolean_answer?: boolean; // when it's a boolean question
+    weight?: number;
   }[];
   @ApiProperty()
   categories_ids?: string[];
@@ -47,4 +49,6 @@ export class QuestionDTO {
   answer?: number[]; // when there are multiple choices
   @ApiProperty()
   boolean_answer?: boolean; // when it's a boolean question
+  @ApiProperty()
+  weight?: number;
 }

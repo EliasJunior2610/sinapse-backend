@@ -30,6 +30,7 @@ export class QuizRepository {
         possible_answers: q.possible_answers,
         answer: q.answer,
         boolean_answer: q.boolean_answer,
+        weight: q.weight,
       })),
       categories_ids: response.categories_ids?.map((id: any) => id),
     };
@@ -48,6 +49,7 @@ export class QuizRepository {
         possible_answers: q.possible_answers,
         answer: q.answer,
         boolean_answer: q.boolean_answer,
+        weight: q.weight,
       })),
       categories_ids: quiz.categories_ids?.map((id: any) => id),
     }));
@@ -70,6 +72,7 @@ export class QuizRepository {
         possible_answers: q.possible_answers,
         answer: q.answer,
         boolean_answer: q.boolean_answer,
+        weight: q.weight,
       })),
       categories_ids: quiz.categories_ids?.map((id: any) => id),
     };
@@ -99,6 +102,7 @@ export class QuizRepository {
         possible_answers: q.possible_answers,
         answer: q.answer,
         boolean_answer: q.boolean_answer,
+        weight: q.weight,
       })),
       categories_ids: quiz.categories_ids?.map((id: any) => id),
     };
@@ -156,6 +160,7 @@ export class QuizRepository {
         possible_answers: q.possible_answers,
         answer: q.answer,
         boolean_answer: q.boolean_answer,
+        weight: q.weight,
       })),
       categories_ids: quiz.categories_ids?.map((id: any) => id),
     };
@@ -222,6 +227,7 @@ export class QuizRepository {
         possible_answers: q.possible_answers,
         answer: q.answer,
         boolean_answer: q.boolean_answer,
+        weight: q.weight,
       })),
       categories_ids: quiz.categories_ids?.map((id: any) => id),
     };
@@ -254,6 +260,7 @@ export class QuizRepository {
         possible_answers: q.possible_answers,
         answer: q.answer,
         boolean_answer: q.boolean_answer,
+        weight: q.weight,
       })),
       categories_ids: quiz.categories_ids?.map((id: any) => id),
     };
