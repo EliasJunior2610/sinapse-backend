@@ -25,6 +25,7 @@ export const quizSchema = new Schema({
       },
       answer: [Number],
       boolean_answer: Boolean,
+      weight: Number,
     },
   ],
   categories_ids: [String],
