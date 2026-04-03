@@ -23,7 +23,7 @@ export const quizSchema = new Schema({
         type: [String],
         default: [],
       },
-      answer: Number,
+      answer: [Number],
       boolean_answer: Boolean,
     },
   ],

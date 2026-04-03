@@ -284,7 +284,7 @@ export class QuizRepository {
         throw new BadRequestException('Resposta deve ser um número');
       }
 
-      return question.answer === userAnswer;
+      return question.answer.includes(userAnswer);
     }
 
     // Caso 2: verdadeiro ou falso
