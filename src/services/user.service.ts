@@ -121,9 +121,9 @@ export class UsersService {
 
   async forgotPassword(body: ForgotPasswordDTO): Promise<string> {
     const transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      secure: false,
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -152,7 +152,7 @@ export class UsersService {
       from: `"${process.env.EMAIL_NAME}" <${process.env.EMAIL_USER}>`,
       to: user.email,
       subject: 'Recuperação de Senha',
-      html: `Sua nova senha: <b>${newPassword}</b>`,
+      html: `Sua nova senha para o Sinapse é: <b>${newPassword}</b>`,
     });
 
     return 'Nova senha enviada para o seu e-mail.';
