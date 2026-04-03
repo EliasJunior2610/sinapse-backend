@@ -106,7 +106,7 @@ export class QuizController {
           example: {
             question: 'Nova pergunta',
             possible_answers: ['A', 'B', 'C'],
-            answer: 1,
+            answer: [1, 2],
             boolean_answer: null,
           },
         },
