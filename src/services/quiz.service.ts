@@ -8,7 +8,7 @@ import { QuestionDTO, QuizDTO, QuizResponseDTO } from 'src/DTOs/QuizDTO';
 
 @Injectable()
 export class QuizService {
-  constructor(private quizRepository: QuizRepository) {}
+  constructor(private quizRepository: QuizRepository) { }
 
   async create(quiz: QuizDTO): Promise<QuizResponseDTO> {
     if (!quiz) throw new BadRequestException('quiz não enviado');
@@ -33,6 +33,7 @@ export class QuizService {
 
   async findByIdAndUpdate(
     id: string,
+    requesterId: string,
     quiz: Partial<QuizDTO>,
   ): Promise<QuizResponseDTO> {
     if (!id) {
@@ -41,6 +42,12 @@ export class QuizService {
 
     if (!quiz) {
       throw new BadRequestException('Quiz não enviado.');
+    }
+
+    const oldQuiz = await this.quizRepository.findById(id);
+
+    if (oldQuiz.user_id !== requesterId) {
+      throw new BadRequestException('Você não tem permissão de alterar o quiz de outros usuários.');
     }
 
     const response = await this.quizRepository.findByIdAndUpdate(id, quiz);
