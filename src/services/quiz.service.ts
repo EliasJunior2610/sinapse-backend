@@ -2,7 +2,7 @@ import { QuizRepository } from 'src/repositories/quiz.repository';
 import {
   Injectable,
   BadRequestException,
-  InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { QuestionDTO, QuizDTO, QuizResponseDTO } from 'src/DTOs/QuizDTO';
 
@@ -47,7 +47,7 @@ export class QuizService {
     const oldQuiz = await this.quizRepository.findById(id);
 
     if (oldQuiz.user_id !== requesterId) {
-      throw new BadRequestException('Você não tem permissão de alterar o quiz de outros usuários.');
+      throw new UnauthorizedException('Você não tem permissão de alterar o quiz de outros usuários.');
     }
 
     const response = await this.quizRepository.findByIdAndUpdate(id, quiz);
