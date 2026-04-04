@@ -16,7 +16,7 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { QuizService } from 'src/services/quiz.service';
-import { QuizDTO, QuizResponseDTO, QuestionDTO } from 'src/DTOs/QuizDTO';
+import { QuizDTO, QuizResponseDTO, QuestionDTO, UpdateQuizDTO } from 'src/DTOs/QuizDTO';
 
 @ApiBearerAuth()
 @Controller('/quizzes')
@@ -46,12 +46,13 @@ export class QuizController {
   @Patch(':id')
   @ApiOperation({ summary: 'Atualizar um quiz' })
   @ApiParam({ name: 'id', type: String, description: 'ID do quiz' })
-  // @ApiBody({ type: QuizDTO })
+  @ApiBody({ type: UpdateQuizDTO })
   async findByIdAndUpdate(
     @Param() params: any,
-    @Body() quiz: Partial<QuizDTO>,
+    @Body('requesterId') requesterId: string,
+    @Body('quiz') quiz: Partial<QuizDTO>,
   ): Promise<QuizResponseDTO> {
-    return this.quizzesService.findByIdAndUpdate(params.id, quiz);
+    return this.quizzesService.findByIdAndUpdate(params.id, requesterId, quiz);
   }
 
   @Delete(':id')
