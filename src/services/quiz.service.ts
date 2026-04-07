@@ -22,6 +22,10 @@ export class QuizService {
     return response;
   }
 
+  async findUserQuizzes(user_id: string): Promise<QuizResponseDTO[]> {
+    return await this.quizRepository.findUserQuizzes(user_id);
+  }
+
   async findById(id: string): Promise<QuizResponseDTO> {
     if (!id) {
       throw new BadRequestException('id não enviado.');
