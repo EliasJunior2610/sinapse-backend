@@ -2,28 +2,28 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class SubjectDTO {
   @ApiProperty()
-  name: string;
+  name!: string;
 
   @ApiProperty()
-  description: string;
+  description!: string;
 
   @ApiProperty()
-  user_id: string; // course creator
+  user_id!: string; // course creator
 
   @ApiProperty()
-  quizzes_ids: string[];
+  quizzes_ids!: string[];
 
   @ApiProperty()
-  students_ids: string[];
+  students_ids!: string[];
 
   @ApiProperty()
-  semester_id: string;
+  semester_id!: string;
 
   @ApiProperty()
   invitation_code?: string;
 
   @ApiProperty()
-  ranking: {
+  ranking!: {
     user_id: string;
     answered_questions: number;
     correct_answers: number;
@@ -32,31 +32,31 @@ export class SubjectDTO {
 
 export class SubjectResponseDTO {
   @ApiProperty()
-  _id: string;
+  _id!: string;
 
   @ApiProperty()
-  name: string;
+  name!: string;
 
   @ApiProperty()
-  description: string;
+  description!: string;
 
   @ApiProperty()
-  user_id: string; // course creator
+  user_id!: string; // course creator
 
   @ApiProperty()
-  quizzes_ids: string[];
+  quizzes_ids!: string[];
 
   @ApiProperty()
-  students_ids: string[];
+  students_ids!: string[];
 
   @ApiProperty()
-  semester_id: string;
+  semester_id!: string;
 
   @ApiProperty()
   invitation_code?: string;
 
   @ApiProperty()
-  ranking: {
+  ranking!: {
     user_id: string;
     answered_questions: number;
     correct_answers: number;
@@ -65,13 +65,18 @@ export class SubjectResponseDTO {
 
 export class SubscribeUserDTO {
   @ApiProperty()
-  user_id: string;
+  user_id!: string;
 
   @ApiProperty()
-  invitation_code: string;
+  invitation_code!: string;
+}
+
+export class UnsubscribeUserDTO {
+  @ApiProperty()
+  user_id!: string;
 }
 
 export class AddQuizDTO {
   @ApiProperty()
-  quiz_id: string;
+  quiz_id!: string;
 }

@@ -36,6 +36,14 @@ export class QuizController {
     return this.quizzesService.findAll();
   }
 
+  @Get('/user-quizzes/:user_id')
+  @ApiOperation({ summary: 'Listar todos os quizzes do usuário' })
+  @ApiParam({ name: 'user_id', type: String, description: 'ID do usuário' })
+  async findUserQuizzes(@Param('user_id') user_id: string): Promise<QuizResponseDTO[]> {
+    return this.quizzesService.findUserQuizzes(user_id);
+  }
+  
+
   @Get(':id')
   @ApiOperation({ summary: 'Buscar quiz por ID' })
   @ApiParam({ name: 'id', type: String, description: 'ID do quiz' })
