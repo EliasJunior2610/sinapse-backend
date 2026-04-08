@@ -8,24 +8,13 @@ async function bootstrap() {
     .addBearerAuth()
     .setTitle('Documentação da API')
     .setDescription('Rotas documentadas abaixo:')
-    .setVersion('1.0')
+    .setVersion('1.1')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory)
+  SwaggerModule.setup('api', app, documentFactory);
 
-  app.enableCors({
-    origin: (origin, callback) => {
-      const allowedOrigin = process.env.FRONTEND_URL;
-
-      if (!origin || origin === allowedOrigin) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  });
+  app.enableCors({ origin: process.env.FRONTEND_URL });
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
