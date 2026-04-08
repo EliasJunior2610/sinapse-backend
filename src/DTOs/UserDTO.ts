@@ -3,25 +3,25 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UserDTO {
   @ApiProperty()
-  name!: string;
+  name: string;
 
   @ApiProperty()
-  email!: string;
+  email: string;
 
   @ApiProperty()
-  password!: string;
+  password: string;
 
   @ApiProperty()
-  paying!: boolean;
+  paying: boolean;
 
   @ApiProperty()
-  is_admin!: boolean;
+  is_admin: boolean;
 
   @ApiProperty()
-  answered_questions!: number;
+  answered_questions: number;
 
   @ApiProperty()
-  points!: number;
+  points: number;
 
   // @ApiProperty()
   // token: string | undefined;
@@ -29,93 +29,93 @@ export class UserDTO {
 
 export class UserResponseDTO {
   @ApiProperty()
-  _id!: Types.ObjectId;
+  _id: Types.ObjectId;
 
   @ApiProperty()
-  name!: string;
+  name: string;
 
   @ApiProperty()
-  email!: string;
+  email: string;
 
   @ApiProperty()
-  paying!: boolean;
+  paying: boolean;
 
   @ApiProperty()
-  is_admin!: boolean;
+  is_admin: boolean;
 
   @ApiProperty()
-  answered_questions!: number;
+  answered_questions: number;
 
   @ApiProperty()
-  points!: number;
+  points: number;
 }
 
 export class CreateUserDTO {
   @ApiProperty()
-  name!: string;
+  name: string;
 
   @ApiProperty()
-  email!: string;
+  email: string;
 
   @ApiProperty()
-  password!: string;
+  password: string;
 }
 
 export class LoginDTO {
   @ApiProperty()
-  email!: string;
+  email: string;
 
   @ApiProperty()
-  password!: string;
+  password: string;
 }
 
 export class LoggedUserDTO {
   @ApiProperty()
-  token!: string;
+  token: string;
 
   @ApiProperty()
-  _id!: Types.ObjectId;
+  _id: Types.ObjectId;
 
   @ApiProperty()
-  name!: string;
+  name: string;
 
   @ApiProperty()
-  email!: string;
+  email: string;
 
   @ApiProperty()
-  paying!: boolean;
+  paying: boolean;
 
   @ApiProperty()
-  is_admin!: boolean;
+  is_admin: boolean;
 
   @ApiProperty()
-  answered_questions!: number;
+  answered_questions: number;
 
   @ApiProperty()
-  points!: number;
+  points: number;
 }
 
 export class UserIdDTO {
   @ApiProperty()
-  userId!: string;
+  userId: string;
 }
 
 export class ForgotPasswordDTO {
   @ApiProperty()
-  email!: string;
+  email: string;
 
   @ApiProperty()
-  name!: string;
+  name: string;
 }
 
 
 export class RankingDTO {
   @ApiProperty()
-  _id!: string;
+  _id: string;
 
   @ApiProperty()
-  name!: string;
+  name: string;
 
   @ApiProperty()
-  points!: number;
+  points: number;
 }

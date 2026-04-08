@@ -3,35 +3,35 @@ import { Types } from 'mongoose';
 
 export class SemesterDTO {
   @ApiProperty()
-  userId!: string;
+  userId: string;
 
   @ApiProperty()
-  name!: string;
+  name: string;
 }
 
 export class SemesterResponseDTO {
   @ApiProperty()
-  _id!: Types.ObjectId;
+  _id: Types.ObjectId;
 
   @ApiProperty()
-  name!: string;
+  name: string;
 }
 
 export class UpdateSemesterDTO {
   @ApiProperty()
-  userId!: string;
+  userId: string;
 
   @ApiProperty()
-  semesterId!: string;
+  semesterId: string;
 
   @ApiProperty()
-  name!: string;
+  name: string;
 }
 
 export class UpdateSemesterBodyDTO {
   @ApiProperty()
-  userId!: string;
+  userId: string;
 
   @ApiProperty()
-  name!: string;
+  name: string;
 }
