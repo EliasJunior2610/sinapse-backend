@@ -2,13 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class QuizDTO {
   @ApiProperty()
-  name!: string;
+  name: string;
 
   @ApiProperty()
-  description!: string;
+  description: string;
 
   @ApiProperty()
-  user_id!: string; // quiz creator
+  user_id: string; // quiz creator
 
   @ApiProperty()
   questions?: {
@@ -25,19 +25,19 @@ export class QuizDTO {
 
 export class QuizResponseDTO {
   @ApiProperty()
-  _id!: string;
+  _id: string;
 
   @ApiProperty()
-  name!: string;
+  name: string;
 
   @ApiProperty()
-  description!: string;
+  description: string;
 
   @ApiProperty()
-  user_id!: string; // quiz creator
+  user_id: string; // quiz creator
 
   @ApiProperty()
-  questions!: {
+  questions: {
     question: string;
     possible_answers?: string[]; // when there are multiple choices
     answer?: number[]; // when there are multiple choices
@@ -51,7 +51,7 @@ export class QuizResponseDTO {
 
 export class QuestionDTO {
   @ApiProperty()
-  question!: string;
+  question: string;
 
   @ApiProperty()
   possible_answers?: string[]; // when there are multiple choices
@@ -68,8 +68,8 @@ export class QuestionDTO {
 
 export class UpdateQuizDTO {
   @ApiProperty()
-  requesterId!: string;
+  requesterId: string;
 
   @ApiProperty()
-  quiz!: QuizDTO;
+  quiz: QuizDTO;
 }

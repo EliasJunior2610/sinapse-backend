@@ -19,7 +19,6 @@ import {
   SubjectDTO,
   SubjectResponseDTO,
   SubscribeUserDTO,
-  UnsubscribeUserDTO,
 } from 'src/DTOs/SubjectDTO';
 import { RankingDTO } from 'src/DTOs/UserDTO';
 
@@ -83,24 +82,6 @@ export class SubjectController {
       subject_id,
       body.user_id,
       body.invitation_code,
-    );
-  }
-
-  @Delete('/unsubscribe-user/:subject_id')
-  @ApiOperation({ summary: 'Retirar usuário da disciplina' })
-  @ApiParam({
-    name: 'subject_id',
-    type: String,
-    description: 'ID da disciplina',
-  })
-  @ApiBody({ type: UnsubscribeUserDTO })
-  async unsubscribeUser(
-    @Param('subject_id') subject_id: string,
-    @Body() body: UnsubscribeUserDTO,
-  ): Promise<SubjectResponseDTO> {
-    return this.subjectService.unsubscribeUser(
-      subject_id,
-      body.user_id,
     );
   }
 
