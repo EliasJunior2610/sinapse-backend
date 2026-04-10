@@ -61,29 +61,13 @@ export class SubjectService {
     const user = await this.userRepository.findById(user_id);
 
     if (!user) {
-      throw new NotFoundException('Usuário não encontrado.');
+      throw new NotFoundException('Usuário não encontrado');
     }
 
     return this.subjectRepository.subscribeUser(
       subject_id,
       user_id,
       invitation_code,
-    );
-  }
-
-  async unsubscribeUser(
-    subject_id: string,
-    user_id: string,
-  ): Promise<SubjectResponseDTO> {
-    const user = await this.userRepository.findById(user_id);
-
-    if (!user) {
-      throw new NotFoundException('Usuário não encontrado.');
-    }
-
-    return this.subjectRepository.unsubscribeUser(
-      subject_id,
-      user_id,
     );
   }
 
