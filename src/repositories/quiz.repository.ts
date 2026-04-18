@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { Types } from 'mongoose';
 import mongoose from 'src/config/mongodb';
 import { QuizDTO, QuizResponseDTO, QuestionDTO } from 'src/DTOs/QuizDTO';
 import { quizSchema } from 'src/schemas/quiz.schema';
@@ -24,7 +25,7 @@ export class QuizRepository {
       _id: response._id.toString(),
       name: response.name,
       description: response.description,
-      user_id: response.user_id,
+      user_id: response.user_id as unknown as string,
       questions: response.questions.map((q: any) => ({
         question: q.question,
         possible_answers: q.possible_answers,
@@ -43,7 +44,7 @@ export class QuizRepository {
       _id: quiz._id.toString(),
       name: quiz.name,
       description: quiz.description,
-      user_id: quiz.user_id,
+      user_id: quiz.user_id as unknown as string,
       questions: quiz.questions.map((q: any) => ({
         question: q.question,
         possible_answers: q.possible_answers,
@@ -66,7 +67,7 @@ export class QuizRepository {
       _id: quiz._id.toString(),
       name: quiz.name,
       description: quiz.description,
-      user_id: quiz.user_id,
+      user_id: quiz.user_id as unknown as string,
       questions: quiz.questions.map((q: any) => ({
         question: q.question,
         possible_answers: q.possible_answers,
@@ -96,7 +97,7 @@ export class QuizRepository {
       _id: quiz._id.toString(),
       name: quiz.name,
       description: quiz.description,
-      user_id: quiz.user_id,
+      user_id: quiz.user_id as unknown as string,
       questions: quiz.questions.map((q: any) => ({
         question: q.question,
         possible_answers: q.possible_answers,
@@ -116,6 +117,28 @@ export class QuizRepository {
     }
 
     return 'Quiz removido com sucesso';
+  }
+
+  async findUserQuizzes(user_id: string): Promise<QuizResponseDTO[]> {
+    const objectIdUser = new Types.ObjectId(user_id);
+    const quizzes = await this.Quiz.find({
+      user_id: objectIdUser,
+    }).lean();
+
+    return quizzes.map((quiz) => ({
+      _id: quiz._id.toString(),
+      name: quiz.name,
+      description: quiz.description,
+      user_id: quiz.user_id as unknown as string,
+      questions: quiz.questions.map((q: any) => ({
+        question: q.question,
+        possible_answers: q.possible_answers,
+        answer: q.answer,
+        boolean_answer: q.boolean_answer,
+        weight: q.weight,
+      })),
+      categories_ids: quiz.categories_ids?.map((id: any) => id),
+    }));
   }
 
   async addQuestion(
@@ -154,7 +177,7 @@ export class QuizRepository {
       _id: quiz._id.toString(),
       name: quiz.name,
       description: quiz.description,
-      user_id: quiz.user_id,
+      user_id: quiz.user_id as unknown as string,
       questions: quiz.questions.map((q: any) => ({
         question: q.question,
         possible_answers: q.possible_answers,
@@ -221,7 +244,7 @@ export class QuizRepository {
       _id: quiz._id.toString(),
       name: quiz.name,
       description: quiz.description,
-      user_id: quiz.user_id,
+      user_id: quiz.user_id as unknown as string,
       questions: quiz.questions.map((q: any) => ({
         question: q.question,
         possible_answers: q.possible_answers,
@@ -254,7 +277,7 @@ export class QuizRepository {
       _id: quiz._id.toString(),
       name: quiz.name,
       description: quiz.description,
-      user_id: quiz.user_id,
+      user_id: quiz.user_id as unknown as string,
       questions: quiz.questions.map((q: any) => ({
         question: q.question,
         possible_answers: q.possible_answers,

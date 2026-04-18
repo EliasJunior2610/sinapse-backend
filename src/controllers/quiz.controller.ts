@@ -21,7 +21,7 @@ import { QuizDTO, QuizResponseDTO, QuestionDTO, UpdateQuizDTO } from 'src/DTOs/Q
 @ApiBearerAuth()
 @Controller('/quizzes')
 export class QuizController {
-  constructor(private quizzesService: QuizService) {}
+  constructor(private quizzesService: QuizService) { }
 
   @Post()
   @ApiOperation({ summary: 'Criar um novo quiz' })
@@ -34,6 +34,13 @@ export class QuizController {
   @ApiOperation({ summary: 'Listar todos os quizzes' })
   async findAll(): Promise<QuizResponseDTO[]> {
     return this.quizzesService.findAll();
+  }
+
+  @Get('/user-quizzes/:user_id')
+  @ApiOperation({ summary: 'Listar todos os quizzes do usuário' })
+  @ApiParam({ name: 'user_id', type: String, description: 'ID do usuário' })
+  async findUserQuizzes(@Param('user_id') user_id: string): Promise<QuizResponseDTO[]> {
+    return this.quizzesService.findUserQuizzes(user_id);
   }
 
   @Get(':id')
