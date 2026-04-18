@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 
 export const quizSchema = new Schema({
   name: {
@@ -10,7 +10,7 @@ export const quizSchema = new Schema({
     required: true,
   },
   user_id: {
-    type: String,
+    type: Types.ObjectId,
     required: true,
   },
   questions: [

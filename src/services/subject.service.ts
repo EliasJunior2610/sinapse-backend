@@ -71,6 +71,22 @@ export class SubjectService {
     );
   }
 
+  async unsubscribeUser(
+    subject_id: string,
+    user_id: string,
+  ): Promise<SubjectResponseDTO> {
+    const user = await this.userRepository.findById(user_id);
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+
+    return this.subjectRepository.unsubscribeUser(
+      subject_id,
+      user_id,
+    );
+  }
+
   async addQuiz(
     subject_id: string,
     quiz_id: string,
