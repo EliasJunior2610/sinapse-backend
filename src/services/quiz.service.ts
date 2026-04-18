@@ -50,7 +50,7 @@ export class QuizService {
 
     const oldQuiz = await this.quizRepository.findById(id);
 
-    if (oldQuiz.user_id !== requesterId) {
+    if (oldQuiz.user_id.toString() !== requesterId) {
       throw new UnauthorizedException('Você não tem permissão de alterar o quiz de outros usuários.');
     }
 
