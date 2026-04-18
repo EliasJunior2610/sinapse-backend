@@ -134,6 +134,42 @@ export class SubjectRepository {
     };
   }
 
+  async unsubscribeUser(
+    subject_id: string,
+    user_id: string,
+  ): Promise<SubjectResponseDTO> {
+    const subject = await this.Subject.findByIdAndUpdate(
+      subject_id,
+      {
+        $pull: {
+          students_ids: user_id,
+        },
+      },
+      { new: true },
+    );
+
+    if (!subject) {
+      throw new NotFoundException('Disciplina não encontrada');
+    }
+
+    return {
+      _id: subject._id.toString(),
+      name: subject.name,
+      description: subject.description,
+      user_id: subject.user_id,
+      quizzes_ids: subject.quizzes_ids,
+      students_ids: subject.students_ids,
+      semester_id: subject.semester_id,
+      invitation_code: subject.invitation_code ?? '',
+      ranking: subject.ranking.map((r: any) => ({
+        user_id: r.user_id,
+        answered_questions: r.answered_questions,
+        correct_answers: r.correct_answers,
+      })),
+    };
+
+  }
+
   async addQuiz(
     subject_id: string,
     quiz_id: string,
