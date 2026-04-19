@@ -103,11 +103,7 @@ export class UserIdDTO {
 export class ForgotPasswordDTO {
   @ApiProperty()
   email!: string;
-
-  @ApiProperty()
-  name!: string;
 }
-
 
 export class RankingDTO {
   @ApiProperty()
