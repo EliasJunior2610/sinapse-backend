@@ -21,7 +21,7 @@ import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UsersService {
-  constructor(private userRepository: UserRepository) { }
+  constructor(private userRepository: UserRepository) {}
 
   async create(user: CreateUserDTO): Promise<UserResponseDTO> {
     if (!user) throw new BadRequestException('Usuário não enviado.');
@@ -136,10 +136,6 @@ export class UsersService {
       throw new NotFoundException('Usuário não encontrado');
     }
 
-    if (user.name !== body.name) {
-      throw new BadRequestException('Credenciais inválidas.');
-    }
-
     const newPassword = generateRandomPassword();
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -165,14 +161,16 @@ export class UsersService {
       throw new NotFoundException('Usuários não encontrados.');
     }
 
-    const usersPoints: RankingDTO[] = users.map(user => ({
+    const usersPoints: RankingDTO[] = users.map((user) => ({
       _id: user._id as unknown as string,
       name: user.name,
       points: user.points,
     }));
 
     // Ordenando todos os usuários com base na pontuação
-    const ranking: RankingDTO[] = usersPoints.sort((a, b) => b.points - a.points);
+    const ranking: RankingDTO[] = usersPoints.sort(
+      (a, b) => b.points - a.points,
+    );
 
     return ranking;
   }
