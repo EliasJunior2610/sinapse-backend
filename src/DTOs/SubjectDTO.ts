@@ -80,3 +80,13 @@ export class AddQuizDTO {
   @ApiProperty()
   quiz_id!: string;
 }
+export class RankingDTO {
+  @ApiProperty()
+  user_id!: string;
+
+  @ApiProperty()
+  answered_questions!: number;
+
+  @ApiProperty()
+  correct_answers!: number;
+}
