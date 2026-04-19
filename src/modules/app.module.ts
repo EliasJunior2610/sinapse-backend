@@ -7,6 +7,7 @@ import {
 import { AppController } from '../controllers/app.controller';
 import { AppService } from '../services/app.service';
 import { ConfigModule } from '@nestjs/config';
+import { CourseModule } from './course.module';
 import { SemesterModule } from './semester.module';
 import { SubjectModule } from './subject.module';
 import { UserModule } from './user.module';
@@ -18,6 +19,7 @@ import { AuthMiddleware } from 'src/middleware/logger.middleware';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    CourseModule,
     UserModule,
     SemesterModule,
     QuizModule,
