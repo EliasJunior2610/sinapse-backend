@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import {
@@ -8,13 +9,16 @@ import {
   CreateCourseDTO,
   UpdateCourseDTO,
 } from 'src/DTOs/CourseDTO';
+import { SubjectResponseDTO } from 'src/DTOs/SubjectDTO';
 import { CourseRepository } from 'src/repositories/course.repository';
+import { SubjectRepository } from 'src/repositories/subject.repository';
 import { UserRepository } from 'src/repositories/user.repository';
 
 @Injectable()
 export class CourseService {
   constructor(
     private courseRepository: CourseRepository,
+    private subjectRepository: SubjectRepository,
     private userRepository: UserRepository,
   ) {}
 
@@ -86,5 +90,26 @@ export class CourseService {
     }
 
     return this.courseRepository.deleteById(course_id);
+  }
+
+  async findSubjects(course_id: string): Promise<SubjectResponseDTO[]> {
+    const course = await this.courseRepository.findById(course_id);
+
+    if (!course) {
+      throw new NotFoundException('Curso não encontrado.');
+    }
+
+    if (!course.semesters_ids) {
+      throw new NotFoundException('O curso pesquisado não possui períodos.');
+    }
+
+    const subjects = await this.subjectRepository.findAll();
+
+    // procurando pelas disciplinas que fazem parte do curso
+    const courseSubjects: SubjectResponseDTO[] = subjects.filter((subject) =>
+      course.semesters_ids?.includes(subject.semester_id),
+    );
+
+    return courseSubjects;
   }
 }

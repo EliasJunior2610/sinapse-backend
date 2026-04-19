@@ -21,6 +21,7 @@ import {
   UpdateCourseControllerBodyDTO,
   UpdateCourseDTO,
 } from 'src/DTOs/CourseDTO';
+import { SubjectResponseDTO } from 'src/DTOs/SubjectDTO';
 
 @ApiBearerAuth()
 @Controller('courses')
@@ -40,6 +41,15 @@ export class CourseController {
   @ApiOperation({ summary: 'Retornar todos os cursos' })
   async findAll(): Promise<CourseResponseDTO[]> {
     return this.courseService.findAll();
+  }
+
+  @Get('course_subjects/:course_id')
+  @ApiOperation({ summary: 'Retorna todas as disciplinas do curso' })
+  @ApiParam({ name: 'course_id', type: String, description: 'ID do curso' })
+  async findSubjects(
+    @Param('course_id') course_id: string,
+  ): Promise<SubjectResponseDTO[]> {
+    return this.courseService.findSubjects(course_id);
   }
 
   @Get(':id')
