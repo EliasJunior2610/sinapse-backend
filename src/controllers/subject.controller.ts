@@ -20,8 +20,8 @@ import {
   SubjectResponseDTO,
   SubscribeUserDTO,
   UnsubscribeUserDTO,
+  RankingDTO,
 } from 'src/DTOs/SubjectDTO';
-import { RankingDTO } from 'src/DTOs/UserDTO';
 
 @ApiBearerAuth()
 @Controller('/subjects')
