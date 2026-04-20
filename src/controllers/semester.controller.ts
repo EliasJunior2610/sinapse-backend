@@ -35,21 +35,21 @@ export class SemesterController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Retornar todos os semestres' })
+  @ApiOperation({ summary: 'Retornar todos os períodos' })
   async findAll(): Promise<SemesterResponseDTO[]> {
     return this.semesterService.findAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Listar semestre por ID' })
-  @ApiParam({ name: 'id', type: String, description: 'ID do semestre' })
+  @ApiOperation({ summary: 'Listar período por ID' })
+  @ApiParam({ name: 'id', type: String, description: 'ID do período' })
   async findById(@Param() params: any): Promise<SemesterResponseDTO> {
     return this.semesterService.findById(params.id);
   }
 
   @Delete(':semesterId')
-  @ApiOperation({ summary: 'Remover um semestre' })
-  @ApiParam({ name: 'semesterId', type: String, description: 'ID do semestre' })
+  @ApiOperation({ summary: 'Remover um período' })
+  @ApiParam({ name: 'semesterId', type: String, description: 'ID do período' })
   async deleteById(
     @Param() params: any,
     @Body() userId: UserIdDTO,
@@ -58,8 +58,8 @@ export class SemesterController {
   }
 
   @Put(':semesterId')
-  @ApiOperation({ summary: 'Atualizar um semestre' })
-  @ApiParam({ name: 'semesterId', type: String, description: 'ID do semestre' })
+  @ApiOperation({ summary: 'Atualizar um período' })
+  @ApiParam({ name: 'semesterId', type: String, description: 'ID do período' })
   @ApiBody({ type: UpdateSemesterBodyDTO })
   async updateById(
     @Param() params: any,

@@ -1,14 +1,19 @@
 import { QuizRepository } from 'src/repositories/quiz.repository';
+import { SubjectRepository } from 'src/repositories/subject.repository';
 import {
   Injectable,
   BadRequestException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { QuestionDTO, QuizDTO, QuizResponseDTO } from 'src/DTOs/QuizDTO';
+import { SubjectResponseDTO } from 'src/DTOs/SubjectDTO';
 
 @Injectable()
 export class QuizService {
-  constructor(private quizRepository: QuizRepository) { }
+  constructor(
+    private quizRepository: QuizRepository,
+    private subjectRepository: SubjectRepository,
+  ) {}
 
   async create(quiz: QuizDTO): Promise<QuizResponseDTO> {
     if (!quiz) throw new BadRequestException('quiz não enviado');
@@ -51,7 +56,9 @@ export class QuizService {
     const oldQuiz = await this.quizRepository.findById(id);
 
     if (oldQuiz.user_id.toString() !== requesterId) {
-      throw new UnauthorizedException('Você não tem permissão de alterar o quiz de outros usuários.');
+      throw new UnauthorizedException(
+        'Você não tem permissão de alterar o quiz de outros usuários.',
+      );
     }
 
     const response = await this.quizRepository.findByIdAndUpdate(id, quiz);
@@ -61,6 +68,18 @@ export class QuizService {
   async deleteById(id: string): Promise<string> {
     if (!id) {
       throw new BadRequestException('id não enviado.');
+    }
+
+    const subjects: SubjectResponseDTO[] =
+      await this.subjectRepository.findAll();
+
+    // verificando se o quiz está dentro de um subject
+    for (const subject of subjects) {
+      if (subject.quizzes_ids.includes(id)) {
+        throw new BadRequestException(
+          'Quiz está sendo utilizado em uma ou mais disciplinas.',
+        );
+      }
     }
 
     const response = await this.quizRepository.deleteById(id);

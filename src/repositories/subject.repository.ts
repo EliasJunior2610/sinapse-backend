@@ -167,7 +167,6 @@ export class SubjectRepository {
         correct_answers: r.correct_answers,
       })),
     };
-
   }
 
   async addQuiz(
@@ -204,6 +203,41 @@ export class SubjectRepository {
       })),
     };
   }
+
+  // async removeQuiz(
+  //   subject_id: string,
+  //   quiz_id: string,
+  // ): Promise<SubjectResponseDTO> {
+  //   const subject = await this.Subject.findByIdAndUpdate(
+  //     subject_id,
+  //     {
+  //       $pull: {
+  //         quizzes_ids: quiz_id,
+  //       },
+  //     },
+  //     { new: true },
+  //   );
+
+  //   if (!subject) {
+  //     throw new NotFoundException('Disciplina não encontrada');
+  //   }
+
+  //   return {
+  //     _id: subject._id.toString(),
+  //     name: subject.name,
+  //     description: subject.description,
+  //     user_id: subject.user_id,
+  //     quizzes_ids: subject.quizzes_ids,
+  //     students_ids: subject.students_ids,
+  //     semester_id: subject.semester_id,
+  //     invitation_code: subject.invitation_code ?? '',
+  //     ranking: subject.ranking.map((r: any) => ({
+  //       user_id: r.user_id,
+  //       answered_questions: r.answered_questions,
+  //       correct_answers: r.correct_answers,
+  //     })),
+  //   };
+  // }
 
   async updateById(
     subject_id: string,

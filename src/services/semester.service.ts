@@ -2,12 +2,18 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { SemesterRepository } from 'src/repositories/semester.repository';
 import { UserRepository } from 'src/repositories/user.repository';
 import { SemesterResponseDTO, UpdateSemesterDTO } from 'src/DTOs/SemesterDTO';
+import { CourseRepository } from 'src/repositories/course.repository';
+import { SubjectRepository } from 'src/repositories/subject.repository';
+import { CourseResponseDTO } from 'src/DTOs/CourseDTO';
+import { SubjectResponseDTO } from 'src/DTOs/SubjectDTO';
 
 @Injectable()
 export class SemesterService {
   constructor(
     private semesterRepository: SemesterRepository,
     private userRepository: UserRepository,
+    private courseRepository: CourseRepository,
+    private subjectRepository: SubjectRepository,
   ) {}
 
   async create(userId: string, name: string): Promise<SemesterResponseDTO> {
@@ -15,12 +21,12 @@ export class SemesterService {
 
     if (!isUserAdmin) {
       throw new BadRequestException(
-        'Usuário não tem permissão para cadastrar semestre.',
+        'Usuário não tem permissão para cadastrar período.',
       );
     }
 
     if (!name) {
-      throw new BadRequestException('Semestre não enviado.');
+      throw new BadRequestException('Período não enviado.');
     }
 
     const response = await this.semesterRepository.insertOne(name);
@@ -49,12 +55,33 @@ export class SemesterService {
 
     if (!isUserAdmin) {
       throw new BadRequestException(
-        'Usuário não tem permissão para remover semestre.',
+        'Usuário não tem permissão para remover período.',
       );
     }
 
     if (!semesterId) {
       throw new BadRequestException('Id não enviado.');
+    }
+
+    const courses: CourseResponseDTO[] = await this.courseRepository.findAll();
+
+    for (const course of courses) {
+      if (course.semesters_ids?.includes(semesterId)) {
+        throw new BadRequestException(
+          'Período está sendo utilizado em um ou mais cursos.',
+        );
+      }
+    }
+
+    const subjects: SubjectResponseDTO[] =
+      await this.subjectRepository.findAll();
+
+    for (const subject of subjects) {
+      if (subject.semester_id == semesterId) {
+        throw new BadRequestException(
+          'Período está sendo utilizado em uma ou mais disciplinas.',
+        );
+      }
     }
 
     const response = await this.semesterRepository.deleteById(semesterId);
@@ -79,7 +106,7 @@ export class SemesterService {
 
     if (!isUserAdmin) {
       throw new BadRequestException(
-        'Usuário não tem permissão para remover semestre.',
+        'Usuário não tem permissão para remover período.',
       );
     }
 
