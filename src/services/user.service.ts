@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 
 import { UserRepository } from 'src/repositories/user.repository';
+import { SubjectRepository } from 'src/repositories/subject.repository';
 import {
   Injectable,
   BadRequestException,
@@ -18,10 +19,14 @@ import {
 } from 'src/DTOs/UserDTO';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import { SubjectResponseDTO } from 'src/DTOs/SubjectDTO';
 
 @Injectable()
 export class UsersService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private userRepository: UserRepository,
+    private subjectRepository: SubjectRepository,
+  ) {}
 
   async create(user: CreateUserDTO): Promise<UserResponseDTO> {
     if (!user) throw new BadRequestException('Usuário não enviado.');
@@ -53,6 +58,23 @@ export class UsersService {
 
   async deleteById(id: string): Promise<string> {
     if (!id) throw new BadRequestException('id de usuário não enviado');
+
+    const subjects: SubjectResponseDTO[] =
+      await this.subjectRepository.findAll();
+
+    for (const subject of subjects) {
+      if (subject.user_id == id) {
+        throw new BadRequestException(
+          'O usuário possui disciplinas em aberto.',
+        );
+      }
+
+      if (subject.students_ids.includes(id)) {
+        throw new BadRequestException(
+          'O usuário está inscrito em uma disciplina.',
+        );
+      }
+    }
 
     const response = await this.userRepository.deleteById(id);
     return response;

@@ -15,7 +15,7 @@ export class SemesterRepository {
     const semesterExists = await this.Semester.findOne({ name: name });
 
     if (semesterExists) {
-      throw new BadRequestException('Semestre já existente.');
+      throw new BadRequestException('Período já existente.');
     }
 
     const doc = new this.Semester({ name: name }).save();
@@ -33,7 +33,7 @@ export class SemesterRepository {
     const semester = await this.Semester.findById(semesterId).lean();
 
     if (!semester) {
-      throw new NotFoundException('Semestre não encontrado');
+      throw new NotFoundException('Período não encontrado');
     }
 
     return semester;
@@ -54,7 +54,7 @@ export class SemesterRepository {
     ).lean();
 
     if (!semester) {
-      throw new NotFoundException('Semestre não encontrado');
+      throw new NotFoundException('Período não encontrado');
     }
 
     return semester;
@@ -64,9 +64,9 @@ export class SemesterRepository {
     const semester = await this.Semester.findByIdAndDelete(semesterId);
 
     if (!semester) {
-      throw new NotFoundException('Semestre não encontrado');
+      throw new NotFoundException('Período não encontrado');
     }
 
-    return 'Semestre removido com sucesso.';
+    return 'Período removido com sucesso.';
   }
 }
