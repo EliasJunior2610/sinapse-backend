@@ -314,7 +314,19 @@ export class QuizRepository {
         throw new BadRequestException('Resposta deve ser um número');
       }
 
-      return question.answer.includes(userAnswer);
+      let answers: number[];
+
+      if (Array.isArray(question.answer)) {
+        answers = question.answer;
+      } else if (typeof question.answer === 'number') {
+        answers = [question.answer];
+      } else if (typeof question.answer === 'string') {
+        answers = [Number(question.answer)];
+      } else {
+        throw new BadRequestException('Formato de resposta inválido');
+      }
+
+      return answers.includes(userAnswer);
     }
 
     // Caso 2: verdadeiro ou falso
