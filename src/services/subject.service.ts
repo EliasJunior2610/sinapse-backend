@@ -6,7 +6,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { SubjectDTO, SubjectResponseDTO, RankingDTO } from 'src/DTOs/SubjectDTO';
+import {
+  SubjectDTO,
+  SubjectResponseDTO,
+  RankingDTO,
+} from 'src/DTOs/SubjectDTO';
 
 @Injectable()
 export class SubjectService {
@@ -14,7 +18,7 @@ export class SubjectService {
     private subjectRepository: SubjectRepository,
     private userRepository: UserRepository,
     private quizRepository: QuizRepository,
-  ) { }
+  ) {}
 
   async findAll(): Promise<SubjectResponseDTO[]> {
     return this.subjectRepository.findAll();
@@ -28,6 +32,14 @@ export class SubjectService {
     if (subject.invitation_code) {
       throw new BadRequestException(
         'Não tente criar o código de convite, ele é gerado automaticamente.',
+      );
+    }
+
+    const isUserAdmin = await this.userRepository.isAdmin(subject.user_id);
+
+    if (!isUserAdmin) {
+      throw new BadRequestException(
+        'Usuário não tem permissão para criar disciplina.',
       );
     }
 
@@ -80,10 +92,7 @@ export class SubjectService {
       throw new NotFoundException('Usuário não encontrado.');
     }
 
-    return this.subjectRepository.unsubscribeUser(
-      subject_id,
-      user_id,
-    );
+    return this.subjectRepository.unsubscribeUser(subject_id, user_id);
   }
 
   async addQuiz(
@@ -113,14 +122,17 @@ export class SubjectService {
   }
 
   async ranking(subject_id: string): Promise<RankingDTO[]> {
-    const subject: SubjectResponseDTO = await this.subjectRepository.findById(subject_id);
+    const subject: SubjectResponseDTO =
+      await this.subjectRepository.findById(subject_id);
 
     const ranking: RankingDTO[] = subject.ranking;
 
     const sortedRanking: RankingDTO[] = ranking.sort((a, b) => {
-      const mediaA = a.answered_questions > 0 ? a.correct_answers / a.answered_questions : 0;
+      const mediaA =
+        a.answered_questions > 0 ? a.correct_answers / a.answered_questions : 0;
 
-      const mediaB = a.answered_questions > 0 ? a.correct_answers / a.answered_questions : 0;
+      const mediaB =
+        a.answered_questions > 0 ? a.correct_answers / a.answered_questions : 0;
 
       return mediaB - mediaA;
     });
