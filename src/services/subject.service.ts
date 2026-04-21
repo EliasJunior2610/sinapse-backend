@@ -10,6 +10,7 @@ import {
   SubjectDTO,
   SubjectResponseDTO,
   RankingDTO,
+  ScoreDTO,
 } from 'src/DTOs/SubjectDTO';
 
 @Injectable()
@@ -121,7 +122,7 @@ export class SubjectService {
     return this.subjectRepository.updateById(subject_id, updatedSubject);
   }
 
-  async ranking(subject_id: string): Promise<RankingDTO[]> {
+  async ranking(subject_id: string): Promise<ScoreDTO[]> {
     const subject: SubjectResponseDTO =
       await this.subjectRepository.findById(subject_id);
 
@@ -132,12 +133,27 @@ export class SubjectService {
         a.answered_questions > 0 ? a.correct_answers / a.answered_questions : 0;
 
       const mediaB =
-        a.answered_questions > 0 ? a.correct_answers / a.answered_questions : 0;
+        b.answered_questions > 0 ? b.correct_answers / b.answered_questions : 0;
 
       return mediaB - mediaA;
     });
 
-    return sortedRanking;
+    const score: ScoreDTO[] = await Promise.all(
+      sortedRanking.map(async (eachRank) => {
+        const user = await this.userRepository.findById(eachRank.user_id);
+
+        return {
+          user_id: eachRank.user_id,
+          user_name: user.name, // ou o campo correto
+          score:
+            eachRank.answered_questions > 0
+              ? (100 * eachRank.correct_answers) / eachRank.answered_questions
+              : 0,
+        };
+      }),
+    );
+
+    return score;
   }
 
   // função auxiliar
