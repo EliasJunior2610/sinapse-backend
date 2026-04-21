@@ -21,12 +21,13 @@ import {
   SubscribeUserDTO,
   UnsubscribeUserDTO,
   RankingDTO,
+  ScoreDTO,
 } from 'src/DTOs/SubjectDTO';
 
 @ApiBearerAuth()
 @Controller('/subjects')
 export class SubjectController {
-  constructor(private subjectService: SubjectService) { }
+  constructor(private subjectService: SubjectService) {}
 
   @Get('/ranking/:id')
   @ApiOperation({ summary: 'Retornar o ranque da disciplina' })
@@ -35,7 +36,7 @@ export class SubjectController {
     required: true,
     schema: { type: 'string' },
   })
-  async ranking(@Param('id') id: string): Promise<RankingDTO[]> {
+  async ranking(@Param('id') id: string): Promise<ScoreDTO[]> {
     console.log({ id });
     return this.subjectService.ranking(id);
   }
@@ -98,10 +99,7 @@ export class SubjectController {
     @Param('subject_id') subject_id: string,
     @Body() body: UnsubscribeUserDTO,
   ): Promise<SubjectResponseDTO> {
-    return this.subjectService.unsubscribeUser(
-      subject_id,
-      body.user_id,
-    );
+    return this.subjectService.unsubscribeUser(subject_id, body.user_id);
   }
 
   @Post('/add-quiz/:subject_id')

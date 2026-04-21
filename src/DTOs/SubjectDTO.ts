@@ -90,3 +90,12 @@ export class RankingDTO {
   @ApiProperty()
   correct_answers!: number;
 }
+
+export class ScoreDTO {
+  @ApiProperty()
+  user_id!: string;
+
+  user_name!: string;
+
+  score!: number;
+}
