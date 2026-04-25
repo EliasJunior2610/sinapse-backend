@@ -28,7 +28,7 @@ export const subjectSchema = new Schema({
   invitation_code: String,
   ranking: [
     {
-      student_id: {
+      user_id: {
         type: String,
         required: true,
       },

@@ -35,6 +35,7 @@ export class SubjectController {
     name: 'id',
     required: true,
     schema: { type: 'string' },
+    description: 'ID da disciplina',
   })
   async ranking(@Param('id') id: string): Promise<ScoreDTO[]> {
     console.log({ id });
