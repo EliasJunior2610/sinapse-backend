@@ -32,12 +32,6 @@ export class SubjectRepository {
   }
 
   async create(subject: SubjectDTO): Promise<SubjectResponseDTO> {
-    const subjectExists = await this.Subject.findOne({ name: subject.name });
-
-    if (subjectExists) {
-      throw new BadRequestException('A disciplina já existe.');
-    }
-
     const doc = new this.Subject(subject);
     const response = await doc.save();
 

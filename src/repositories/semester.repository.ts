@@ -12,12 +12,6 @@ export class SemesterRepository {
   private Semester = mongoose.model('Semester', semesterSchema);
 
   async insertOne(name: string): Promise<SemesterResponseDTO> {
-    const semesterExists = await this.Semester.findOne({ name: name });
-
-    if (semesterExists) {
-      throw new BadRequestException('Período já existente.');
-    }
-
     const doc = new this.Semester({ name: name }).save();
 
     return doc;
