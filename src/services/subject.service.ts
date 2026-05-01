@@ -1,10 +1,12 @@
 import { SubjectRepository } from 'src/repositories/subject.repository';
 import { UserRepository } from 'src/repositories/user.repository';
 import { QuizRepository } from 'src/repositories/quiz.repository';
+import { CourseRepository } from 'src/repositories/course.repository';
 import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import {
   SubjectDTO,
@@ -19,6 +21,7 @@ export class SubjectService {
     private subjectRepository: SubjectRepository,
     private userRepository: UserRepository,
     private quizRepository: QuizRepository,
+    private courseRepository: CourseRepository,
   ) {}
 
   async findAll(): Promise<SubjectResponseDTO[]> {
@@ -36,11 +39,26 @@ export class SubjectService {
       );
     }
 
-    const isUserAdmin = await this.userRepository.isAdmin(subject.user_id);
+    const isUserStudent = await this.userRepository.isStudent(subject.user_id);
 
-    if (!isUserAdmin) {
-      throw new BadRequestException(
+    if (isUserStudent) {
+      throw new UnauthorizedException(
         'Usuário não tem permissão para criar disciplina.',
+      );
+    }
+
+    const user = await this.userRepository.findById(subject.user_id);
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+    const courseId = user.course_id!;
+
+    const course = await this.courseRepository.findById(courseId);
+
+    // verificando se o período faz parte do curso
+    if (!course.semesters_ids?.includes(subject.semester_id)) {
+      throw new BadRequestException(
+        `O período da nova disciplina não faz parte do curso ${course.name}.`,
       );
     }
 

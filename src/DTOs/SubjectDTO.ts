@@ -30,6 +30,33 @@ export class SubjectDTO {
   }[];
 }
 
+export class CreateSubjectDTO {
+  @ApiProperty()
+  name!: string;
+
+  @ApiProperty()
+  description!: string;
+
+  @ApiProperty()
+  user_id!: string; // course creator
+
+  @ApiProperty()
+  quizzes_ids!: string[];
+
+  @ApiProperty()
+  students_ids!: string[];
+
+  @ApiProperty()
+  semester_id!: string;
+
+  @ApiProperty()
+  ranking!: {
+    user_id: string;
+    answered_questions: number;
+    correct_answers: number;
+  }[];
+}
+
 export class SubjectResponseDTO {
   @ApiProperty()
   _id!: string;

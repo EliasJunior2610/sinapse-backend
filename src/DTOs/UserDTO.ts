@@ -15,7 +15,7 @@ export class UserDTO {
   paying!: boolean;
 
   @ApiProperty()
-  is_admin!: boolean;
+  type!: 'Admin' | 'Teacher' | 'Student';
 
   @ApiProperty()
   answered_questions!: number;
@@ -23,8 +23,8 @@ export class UserDTO {
   @ApiProperty()
   points!: number;
 
-  // @ApiProperty()
-  // token: string | undefined;
+  @ApiProperty()
+  course_id: string | undefined;
 }
 
 export class UserResponseDTO {
@@ -41,13 +41,16 @@ export class UserResponseDTO {
   paying!: boolean;
 
   @ApiProperty()
-  is_admin!: boolean;
+  type!: 'Admin' | 'Teacher' | 'Student';
 
   @ApiProperty()
   answered_questions!: number;
 
   @ApiProperty()
   points!: number;
+
+  @ApiProperty()
+  course_id: string | undefined;
 }
 
 export class CreateUserDTO {
@@ -86,13 +89,16 @@ export class LoggedUserDTO {
   paying!: boolean;
 
   @ApiProperty()
-  is_admin!: boolean;
+  type!: 'Admin' | 'Teacher' | 'Student';
 
   @ApiProperty()
   answered_questions!: number;
 
   @ApiProperty()
   points!: number;
+
+  @ApiProperty()
+  course_id: string | undefined;
 }
 
 export class UserIdDTO {
@@ -114,4 +120,12 @@ export class RankingDTO {
 
   @ApiProperty()
   points!: number;
+}
+
+export class MakeTeacherDTO {
+  @ApiProperty()
+  userId!: string;
+
+  @ApiProperty()
+  courseId!: string;
 }

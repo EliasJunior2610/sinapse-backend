@@ -22,6 +22,7 @@ import {
   UnsubscribeUserDTO,
   RankingDTO,
   ScoreDTO,
+  CreateSubjectDTO,
 } from 'src/DTOs/SubjectDTO';
 
 @ApiBearerAuth()
@@ -50,8 +51,8 @@ export class SubjectController {
 
   @Post()
   @ApiOperation({ summary: 'Criar uma nova disciplina' })
-  @ApiBody({ type: SubjectDTO })
-  async create(@Body() subject: SubjectDTO): Promise<SubjectResponseDTO> {
+  @ApiBody({ type: CreateSubjectDTO })
+  async create(@Body() subject: CreateSubjectDTO): Promise<SubjectResponseDTO> {
     return this.subjectService.create(subject);
   }
 
