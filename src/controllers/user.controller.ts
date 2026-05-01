@@ -22,12 +22,13 @@ import {
   LoggedUserDTO,
   ForgotPasswordDTO,
   RankingDTO,
+  MakeTeacherDTO,
 } from 'src/DTOs/UserDTO';
 
 @ApiBearerAuth()
 @Controller('/users')
 export class UserController {
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService) {}
 
   @Post()
   @ApiOperation({ summary: 'Criar novo usuário' })
@@ -93,5 +94,14 @@ export class UserController {
   @ApiBody({ type: ForgotPasswordDTO })
   async forgotPassword(@Body() body: ForgotPasswordDTO): Promise<string> {
     return this.usersService.forgotPassword(body);
+  }
+
+  @Post('/makeTeacher')
+  @ApiOperation({
+    summary: 'Transforma o usuário em um professor de uma matéria',
+  })
+  @ApiBody({ type: MakeTeacherDTO })
+  async makeTeacher(@Body() body: MakeTeacherDTO): Promise<UserResponseDTO> {
+    return this.usersService.makeTeacher(body.userId, body.courseId);
   }
 }

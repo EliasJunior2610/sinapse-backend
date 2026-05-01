@@ -27,9 +27,10 @@ export class UserRepository {
     const newUser = {
       ...user,
       paying: false,
-      is_admin: false,
+      type: 'Student',
       answered_questions: 0,
       points: 0,
+      course_id: '',
     };
 
     const doc = new this.User(newUser);
@@ -40,9 +41,10 @@ export class UserRepository {
       name: response.name!,
       email: response.email!,
       paying: response.paying!,
-      is_admin: response.is_admin,
+      type: response.type as 'Admin' | 'Teacher' | 'Student',
       answered_questions: response.answered_questions!,
       points: response.points!,
+      course_id: response.course_id!,
     };
   }
 
@@ -54,9 +56,10 @@ export class UserRepository {
       name: user.name!,
       email: user.email!,
       paying: user.paying!,
-      is_admin: user.is_admin,
+      type: user.type as 'Admin' | 'Teacher' | 'Student',
       answered_questions: user.answered_questions!,
       points: user.points!,
+      course_id: user.course_id!,
     }));
   }
 
@@ -72,9 +75,10 @@ export class UserRepository {
       name: user.name!,
       email: user.email!,
       paying: user.paying!,
-      is_admin: user.is_admin,
+      type: user.type as 'Admin' | 'Teacher' | 'Student',
       answered_questions: user.answered_questions!,
       points: user.points!,
+      course_id: user.course_id!,
     };
   }
 
@@ -107,9 +111,10 @@ export class UserRepository {
       name: user.name!,
       email: user.email!,
       paying: user.paying!,
-      is_admin: user.is_admin,
+      type: user.type as 'Admin' | 'Teacher' | 'Student',
       answered_questions: user.answered_questions!,
       points: user.points!,
+      course_id: user.course_id!,
     };
   }
 
@@ -126,7 +131,69 @@ export class UserRepository {
       throw new NotFoundException('Usuário não encontrado.');
     }
 
-    return user.is_admin;
+    if (user.type !== 'Admin') {
+      return false;
+    }
+
+    return true;
+  }
+
+  async isTeacher(userId: string): Promise<boolean> {
+    const user = await this.User.findById(userId);
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+
+    if (user.type !== 'Teacher') {
+      return false;
+    }
+
+    return true;
+  }
+
+  async makeTeacher(
+    userId: string,
+    courseId: string,
+  ): Promise<UserResponseDTO> {
+    const user = await this.User.findById(userId);
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+
+    if (user.type == 'Teacher') {
+      throw new NotFoundException('Usuário já é um professor.');
+    }
+
+    const updatedTeacher = {
+      ...user.toObject(),
+      type: 'Teacher',
+      course_id: courseId,
+    };
+
+    console.log({ updatedTeacher });
+
+    const updatedUser = await this.User.findByIdAndUpdate(
+      userId,
+      { $set: updatedTeacher }, // sobrescrever sem causar comportamentos indesejados
+      { new: true }, //retorna o documento atualizado
+    ).lean(); // retorna os dados do documento
+
+    if (!updatedUser) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+
+    return {
+      _id: updatedUser._id,
+      name: updatedUser.name!,
+      email: updatedUser.email!,
+      paying: updatedUser.paying!,
+      type: updatedUser.type as 'Admin' | 'Teacher' | 'Student',
+      answered_questions: updatedUser.answered_questions!,
+      points: updatedUser.points!,
+      course_id: updatedUser.course_id!,
+    };
   }
 
   async findByName(name: string) {

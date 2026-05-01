@@ -17,8 +17,8 @@ export const userSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  is_admin: {
-    type: Boolean,
+  type: {
+    type: String,
     required: true,
   },
   answered_questions: {
@@ -30,4 +30,5 @@ export const userSchema = new Schema({
     required: true,
   },
   token: String,
+  course_id: String,
 });

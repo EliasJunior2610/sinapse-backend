@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 
 import { UserRepository } from 'src/repositories/user.repository';
 import { SubjectRepository } from 'src/repositories/subject.repository';
+import { CourseRepository } from 'src/repositories/course.repository';
 import {
   Injectable,
   BadRequestException,
@@ -26,6 +27,7 @@ export class UsersService {
   constructor(
     private userRepository: UserRepository,
     private subjectRepository: SubjectRepository,
+    private courseRepository: CourseRepository,
   ) {}
 
   async create(user: CreateUserDTO): Promise<UserResponseDTO> {
@@ -123,7 +125,7 @@ export class UsersService {
       {
         id: user._id,
         email: user.email,
-        is_admin: user.is_admin,
+        type: user.type,
       },
       process.env.SECRET as string,
       { expiresIn: '1d' },
@@ -135,9 +137,10 @@ export class UsersService {
       name: user.name,
       email: user.email,
       paying: user.paying,
-      is_admin: user.is_admin,
+      type: user.type as 'Admin' | 'Teacher' | 'Student',
       answered_questions: user.answered_questions,
       points: user.points,
+      course_id: user.course_id as string,
     };
   }
 
@@ -195,6 +198,15 @@ export class UsersService {
     );
 
     return ranking;
+  }
+
+  async makeTeacher(
+    userId: string,
+    courseId: string,
+  ): Promise<UserResponseDTO> {
+    await this.courseRepository.findById(courseId);
+
+    return await this.userRepository.makeTeacher(userId, courseId);
   }
 }
 
