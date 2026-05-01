@@ -152,6 +152,20 @@ export class UserRepository {
     return true;
   }
 
+  async isStudent(userId: string): Promise<boolean> {
+    const user = await this.User.findById(userId);
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+
+    if (user.type !== 'Student') {
+      return false;
+    }
+
+    return true;
+  }
+
   async makeTeacher(
     userId: string,
     courseId: string,
