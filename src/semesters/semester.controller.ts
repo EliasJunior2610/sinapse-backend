@@ -1,0 +1,76 @@
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Put,
+  Body,
+  Param,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+} from '@nestjs/swagger';
+import { SemesterService } from 'src/semesters/semester.service';
+import {
+  SemesterDTO,
+  SemesterResponseDTO,
+  UpdateSemesterBodyDTO,
+  UpdateSemesterDTO,
+} from 'src/semesters/SemesterDTO';
+import { UserIdDTO } from 'src/users/UserDTO';
+
+@ApiBearerAuth()
+@Controller('semesters')
+export class SemesterController {
+  constructor(private semesterService: SemesterService) {}
+
+  @Post()
+  @ApiOperation({ summary: 'Verificar se é adm e cria novo período' })
+  @ApiBody({ type: SemesterDTO })
+  async create(@Body() newSemester: SemesterDTO): Promise<SemesterResponseDTO> {
+    return this.semesterService.create(newSemester.userId, newSemester.name);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Retornar todos os períodos' })
+  async findAll(): Promise<SemesterResponseDTO[]> {
+    return this.semesterService.findAll();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Listar período por ID' })
+  @ApiParam({ name: 'id', type: String, description: 'ID do período' })
+  async findById(@Param() params: any): Promise<SemesterResponseDTO> {
+    return this.semesterService.findById(params.id);
+  }
+
+  @Delete(':semesterId')
+  @ApiOperation({ summary: 'Remover um período' })
+  @ApiParam({ name: 'semesterId', type: String, description: 'ID do período' })
+  async deleteById(
+    @Param() params: any,
+    @Body() userId: UserIdDTO,
+  ): Promise<string> {
+    return this.semesterService.deleteById(userId.userId, params.semesterId);
+  }
+
+  @Put(':semesterId')
+  @ApiOperation({ summary: 'Atualizar um período' })
+  @ApiParam({ name: 'semesterId', type: String, description: 'ID do período' })
+  @ApiBody({ type: UpdateSemesterBodyDTO })
+  async updateById(
+    @Param() params: any,
+    @Body() updateSemester: UpdateSemesterBodyDTO,
+  ): Promise<SemesterResponseDTO> {
+    const request: UpdateSemesterDTO = {
+      userId: updateSemester.userId,
+      semesterId: params.semesterId,
+      name: updateSemester.name,
+    };
+
+    return this.semesterService.updateById(request);
+  }
+}
