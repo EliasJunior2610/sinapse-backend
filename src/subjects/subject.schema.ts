@@ -25,6 +25,10 @@ export const subjectSchema = new Schema({
     type: String,
     required: true,
   },
+  course_id: {
+    type: String,
+    required: true,
+  },
   invitation_code: String,
   ranking: [
     {

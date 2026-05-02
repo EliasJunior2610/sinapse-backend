@@ -22,6 +22,7 @@ export class SubjectRepository {
       quizzes_ids: subject.quizzes_ids,
       students_ids: subject.students_ids,
       semester_id: subject.semester_id,
+      course_id: subject.course_id,
       invitation_code: subject.invitation_code ?? '',
       ranking: subject.ranking.map((rank: any) => ({
         user_id: rank.user_id,
@@ -43,6 +44,7 @@ export class SubjectRepository {
       quizzes_ids: response.quizzes_ids,
       students_ids: response.students_ids,
       semester_id: response.semester_id,
+      course_id: response.course_id,
       invitation_code: response.invitation_code ?? '',
       ranking: response.ranking.map((r: any) => ({
         user_id: r.user_id,
@@ -77,6 +79,7 @@ export class SubjectRepository {
       quizzes_ids: subject.quizzes_ids,
       students_ids: subject.students_ids,
       semester_id: subject.semester_id,
+      course_id: subject.course_id,
       invitation_code: subject.invitation_code ?? '',
       ranking: subject.ranking.map((r: any) => ({
         user_id: r.user_id,
@@ -119,6 +122,7 @@ export class SubjectRepository {
       quizzes_ids: subject.quizzes_ids,
       students_ids: subject.students_ids,
       semester_id: subject.semester_id,
+      course_id: subject.course_id,
       invitation_code: subject.invitation_code ?? '',
       ranking: subject.ranking.map((r: any) => ({
         user_id: r.user_id,
@@ -154,6 +158,7 @@ export class SubjectRepository {
       quizzes_ids: subject.quizzes_ids,
       students_ids: subject.students_ids,
       semester_id: subject.semester_id,
+      course_id: subject.course_id,
       invitation_code: subject.invitation_code ?? '',
       ranking: subject.ranking.map((r: any) => ({
         user_id: r.user_id,
@@ -189,6 +194,7 @@ export class SubjectRepository {
       quizzes_ids: subject.quizzes_ids,
       students_ids: subject.students_ids,
       semester_id: subject.semester_id,
+      course_id: subject.course_id,
       invitation_code: subject.invitation_code ?? '',
       ranking: subject.ranking.map((r: any) => ({
         user_id: r.user_id,
@@ -255,6 +261,7 @@ export class SubjectRepository {
       quizzes_ids: subject.quizzes_ids,
       students_ids: subject.students_ids,
       semester_id: subject.semester_id,
+      course_id: subject.course_id,
       invitation_code: subject.invitation_code ?? '',
       ranking: subject.ranking.map((r: any) => ({
         user_id: r.user_id,
