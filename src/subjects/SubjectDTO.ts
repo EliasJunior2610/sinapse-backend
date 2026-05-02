@@ -20,6 +20,9 @@ export class SubjectDTO {
   semester_id!: string;
 
   @ApiProperty()
+  course_id!: string;
+
+  @ApiProperty()
   invitation_code?: string;
 
   @ApiProperty()
@@ -50,6 +53,9 @@ export class CreateSubjectDTO {
   semester_id!: string;
 
   @ApiProperty()
+  course_id!: string;
+
+  @ApiProperty()
   ranking!: {
     user_id: string;
     answered_questions: number;
@@ -78,6 +84,9 @@ export class SubjectResponseDTO {
 
   @ApiProperty()
   semester_id!: string;
+
+  @ApiProperty()
+  course_id!: string;
 
   @ApiProperty()
   invitation_code?: string;
